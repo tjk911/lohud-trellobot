@@ -1,0 +1,38 @@
+{
+  "name": "trello-bot",
+  "version": "1.0.0",
+  "description": "Trello bot for lohud labs",
+  "main": "gulpfile.js",
+  "devDependencies": {
+    "gulp": "^3.9.0",
+    "gulp-autoprefixer": "^3.1.0",
+    "gulp-load-plugins": "^1.1.0",
+    "gulp-sass": "^2.1.0"
+  },
+  "scripts": {
+    "start": "gulp",
+    "build": "gulp sass"
+  },
+  "repository": {
+    "type": "git",
+    "url": "testsite"
+  },
+  "bugs": {
+    "url": "https://github.com/tjk911/testsite/issues",
+    "email": "jteoh@lohud.com"
+  },
+  "author": "Kai Teoh <jteoh@lohud.com>",
+  "license": "MIT",
+  "private": true,
+  "dependencies": {
+    "body-parser": "^1.15.0",
+    "express": "^4.13.4",
+    "gulp-autoprefixer": "^3.1.0",
+    "jade": "^1.11.0",
+    "morgan": "^1.7.0",
+    "node-outlook": "^1.1.5",
+    "node-slack": "0.0.7",
+    "node-trello": "^1.1.2",
+    "simple-oauth2": "^0.5.1"
+  }
+}
