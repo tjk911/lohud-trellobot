@@ -6,13 +6,14 @@ var express = require('express')
   , app = express()
   , port = process.env.PORT || 8080
   , Trello = require('node-trello')
-  , t = new Trello("0bd8e533367e8afab34542339c5c7df2", "4583bd49db01566af73b645f661d19ab8145ffc98f60ab6a5a493ec91a69fe35")
+  , t = new Trello(t1, t2)
   , Slack = require('node-slack')
   , bodyParser = require('body-parser')
   , mailer = require('./mailer')
   , url = require('url')
   , http = require('http')
   , credentials = require('./credentials')
+  , authHelper = require('./authHelper')
 
 var sassPaths = [
   'static/bower_components/foundation-sites/scss',
@@ -76,21 +77,9 @@ function grab() {
               slack.send({
                   text: "`"+data[i]['name']+'` is ready',
                   channel: '#trellotest',
-                  username: 'Hypnotoad',
-                  icon_emoji: ':hypnotoad:',
-                  // attachments: attachment_array,
-                  // unfurl_links: true,
-                  // link_names: 1
+                  username: 'Zoidberg',
+                  icon_emoji: ':Zoidberg:',
               });
-
-              // slack.webhook({
-              //   channel: "#trellotest",
-              //   username: "Hypnotoad",
-              //   icon_emoji: ":hypnotoad:",
-              //   text: "`"+data[i]['name']+'` is ready'
-              // }, function(err, response) {
-              //   console.log(response);
-              // });
             }
           }
         }
@@ -99,10 +88,7 @@ function grab() {
         // Loop through the asset
         for (var x = 0; x < currentAssets.length; x++){
           var assetpos = newAssets.indexOf(currentAssets[x]);
-          // console.log(assetpos);
-          // console.log(newAssets[assetpos]);
-          // console.log("should match");
-          // console.log(currentAssets[x]);
+
           // check if assets exist in data
           if (newAssets.indexOf(currentAssets[x]) > -1){
             // console.log(currentAssets[x]+' is still here')
@@ -111,8 +97,8 @@ function grab() {
             slack.send({
                 text: "`"+currentAssets[x]+'` has been posted',
                 channel: '#trellotest',
-                username: 'Hypnotoad',
-                icon_emoji: ':hypnotoad:',
+                username: 'Zoidberg',
+                icon_emoji: ':Zoidberg:',
             }, function(err, response){
               // console.log(response);
               currentAssets = newAssets;
@@ -129,6 +115,8 @@ function grab() {
 };
 
 grab();
+mailer.checkMail();
+
 
 app.use(logger('dev'))
 app.use(express.static(__dirname + '/static'))
