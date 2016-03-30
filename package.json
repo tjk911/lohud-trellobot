@@ -18,10 +18,10 @@
     "url": "testsite"
   },
   "bugs": {
-    "url": "https://github.com/tjk911/testsite/issues",
-    "email": "jteoh@lohud.com"
+    "url": "https://github.com/tjk911/trellobot/",
+    "email": "kai.teoh@gmail.com"
   },
-  "author": "Kai Teoh <jteoh@lohud.com>",
+  "author": "Kai Teoh <kai.teoh@gmail.com>",
   "license": "MIT",
   "private": true,
   "dependencies": {

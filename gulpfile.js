@@ -6,7 +6,6 @@ var express = require('express')
   , app = express()
   , port = process.env.PORT || 8080
   , Trello = require('node-trello')
-  , t = new Trello(t1, t2)
   , Slack = require('node-slack')
   , bodyParser = require('body-parser')
   , mailer = require('./mailer')
@@ -14,6 +13,7 @@ var express = require('express')
   , http = require('http')
   , credentials = require('./credentials')
   , authHelper = require('./authHelper')
+  , t = new Trello(credentials.t1, credentials.t2)
 
 var sassPaths = [
   'static/bower_components/foundation-sites/scss',
