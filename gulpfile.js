@@ -51,7 +51,6 @@ function grab() {
     }, 
     function(err, data) {
       if (err) throw err;
-      
       // Check to see if there are changes
       if (currentLength == data.length) {
         // console.log("Don't do anything");
@@ -115,6 +114,7 @@ function grab() {
 };
 
 grab();
+mailer.refresh();
 mailer.checkMail();
 
 
@@ -141,8 +141,9 @@ app.get('/authorize', function (req, res) {
   var url_parts = url.parse(req.url, true);
   var code = url_parts.query.code;
   var token = authHelper.getTokenFromCode(code, mailer.tokenReceived, res);
-  console.log("Code: " + code);
-  console.log("Request handler 'authorize' was called.");
+
+  // console.log("Code: " + code);
+  // console.log("Request handler 'authorize' was called.");
 })
 
 app.get('/mail', mailer.checkMail)
@@ -181,9 +182,10 @@ app.post('/post',function(req,res) {
   // );
 
     var reply =  {
-            text: 'text = ' + message + '; user = ' + user,
-            username: 'Hypnotoad',
-            icon_emoji: ':hypnotoad:',
+            // text: 'text = ' + message + '; user = ' + user,
+            text: 'Kai is da bomb. The Brannigan has spoken.',
+            username: 'Zap Brannigan',
+            icon_emoji: ':brannigan:',
         };
 
     res.json(reply);

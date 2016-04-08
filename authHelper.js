@@ -1,10 +1,14 @@
 var credentials = require('./credentials')
 var oauth2 = require('simple-oauth2')(credentials.oauthcred);
 var redirectUri = "https://data.lohud.com/bots/trellobot/authorize";
+// var redirectUri = "http://localhost:8080/authorize";
+
 
 //  The Scopes the app requires
 var scopes = [ "openid",
-               "https://outlook.office.com/mail.read" ];
+               "https://outlook.office.com/mail.read",
+               "profile",
+               "offline_access" ];
 
 module.exports = {
     getAuthUrl: function() {
@@ -29,7 +33,6 @@ module.exports = {
                 callback(res, error, null);
               } else {
                 token = oauth2.accessToken.create(result);
-                console.log("Token created: ", token.token);
                 callback(res, null, token);
               }
         });
@@ -49,4 +52,3 @@ module.exports = {
         return jwt.preferred_username
     },
 }
-

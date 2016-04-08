@@ -2,36 +2,69 @@ var outlook = require('node-outlook')
   , authHelper = require('./authHelper')
   , Slack = require('node-slack')
   , credentials = require('./credentials')
+  , outlook_refresh = require('outlook-refresh')
+  , moment = require('moment-timezone')
 
 var slack = new Slack(credentials.webhookUri);
 var savedToken;
 var savedEmail;
+var refreshToken;
 
-var currentMailLength = 0;
-var currentMailAssets = [];
+// Use below for stage/prod
+var momenttime = moment().tz("America/Los_Angeles").format();
+
+// Use below for dev
+// var momenttime = moment().tz("America/New_York").format();
+
+console.log('this is momenttime', momenttime);
+
+Date.prototype.yyyymmdd = function() {
+  var yyyy = this.getFullYear().toString();
+  var mm = (this.getMonth()+1).toString(); // getMonth() is zero-based
+  var dd  = this.getDate().toString();
+  var hr = (this.getHours()+4).toString();
+  var mn = this.getMinutes().toString();
+  var sc = this.getSeconds().toString();
+  return yyyy + (mm[1]?mm:"0"+mm[0]) + (dd[1]?dd:"0"+dd[0]) + hr + mn + sc; // padding
+};
+
+var sT = new Date();
+
+var rn = sT.yyyymmdd().toString();
+  var rnYear = rn.substring(0,4);
+  var rnMonth = rn.substring(4,6);
+  var rnDay = rn.substring(6,8);
+  var rnHour = rn.substring(8,10);
+  var rnMinute = rn.substring(10,12);
+  var rnSecond = rn.substring(12,14);
+
+// var savedTime = rnYear + '-' + rnMonth + '-' + rnDay + 'T' + rnHour + ':' + rnMinute + ':' + rnSecond + 'Z';
+var savedTime = momenttime;
+
+var refresh = function(){
+  outlook_refresh(refreshToken, credentials.oauthcredID, credentials.oauthcredSecret, function (err, res){
+    if (err){
+      console.log('refresh error: ',err);
+    } else {
+      savedToken = res.token;
+      console.log('refresh triggered')
+    }
+  }); 
+  setTimeout(refresh, 10000); // 10 secs
+};
 
 var tokenReceived = function(res, error, token) {
-  if (error) {
-    console.log("Access token error: ", error.message);
-    res.set({
-      'Set-Cookie': cookie
-    });
-    res.write('<p>ERROR: ' + error + '</p>');
-    res.end();
-  }
-  else {
-    var cookies = ['node-tutorial-token=' + token.token.access_token + ';Max-Age=3600',
-                   'node-tutorial-email=' + authHelper.getEmailFromIdToken(token.token.id_token) + ';Max-Age=3600'];
-    res.set({
-      'Set-Cookie': cookies
-    });
-    // res.redirect(302, 'https://data.lohud.com/bots/trellobot/mail');
-    // res.end();
-    savedToken = token.token.access_token;
-    savedEmail = authHelper.getEmailFromIdToken(token.token.id_token);
-    res.redirect(302, 'https://data.lohud.com/bots/trellobot/mail');
-    res.end();
-  }
+      if (error) {
+        console.log("Access token error: ", error.message);
+      }
+      else {
+        savedToken = token.token.access_token;
+        savedEmail = authHelper.getEmailFromIdToken(token.token.id_token);
+        refreshToken = token.token.refresh_token;
+        res.redirect(302, 'https://data.lohud.com/bots/trellobot/');
+        // res.redirect(302, 'http://localhost:8080/');
+        res.end();
+      }
 };
 
 var getValueFromCookie = function(valueName, cookie) {
@@ -44,12 +77,7 @@ var getValueFromCookie = function(valueName, cookie) {
 };
 
 var checkMail = function(req, res) {
-  Date.prototype.yyyymmdd = function() {
-    var yyyy = this.getFullYear().toString();
-    var mm = (this.getMonth()+1).toString(); // getMonth() is zero-based
-    var dd  = this.getDate().toString();
-    return yyyy + (mm[1]?mm:"0"+mm[0]) + (dd[1]?dd:"0"+dd[0]); // padding
-  };
+
 
   d = new Date();
   
@@ -57,23 +85,27 @@ var checkMail = function(req, res) {
     var year = today.substring(0,4);
     var month = today.substring(4,6);
     var day = today.substring(6,8);
+    var hour = today.substring(8,10);
+    var minute = today.substring(10,12);
+    var second = today.substring(12,14);
 
-  var date = year + '-' + month + '-' + day;
-  console.log(date);
+  // var date = year + '-' + month + '-' + day + 'T' + hour + ':' + minute + ':' + second + 'Z';
 
-  // var token = getValueFromCookie('node-tutorial-token', req.headers.cookie);
-  console.log("Token found in cookie: ", savedToken);
-  // console.log("Token found in cookie orig: ", token);
-  // var email = getValueFromCookie('node-tutorial-email', req.headers.cookie);
-  console.log("Email found in cookie: ", savedEmail);
-  // console.log("Email found in cookie orig: ", email);
+  // Use below for stage/prod
+  var date = moment().tz("America/Los_Angeles").format();
+
+  // Use below for dev
+  // var date = moment().tz("America/New_York").format();
+
+  t = new Date();
+
   if (savedToken) {
     var queryParams = {
-      '$filter':"ReceivedDateTime ge "+date+" AND From/EmailAddress/Address eq 'noreply.ap@notification.ap.org'",
+      '$filter':"ReceivedDateTime ge "+savedTime+" and From/EmailAddress/Address eq 'noreply.ap@notification.ap.org'",
       '$select': 'Subject,ReceivedDateTime,From',
       '$orderby': 'ReceivedDateTime desc',
       // '$top': 10
-      // '$search': 'from:noreply.ap@notification.ap.org'
+      // '$search': '"from:noreply.ap@notification.ap.org"'
     };
     
     // Set the API endpoint to use the v2.0 endpoint
@@ -87,53 +119,36 @@ var checkMail = function(req, res) {
         if (error) {
           console.log('getMessages returned an error: ' + error);
         } else if (result) {
-
-          // Check to see if we need to query the inbox
-          if (currentMailLength == result.value.length) {
-            console.log('nothing has changed in the inbox')
-          } else {
-            // Update the saved inbox value
-            currentMailLength = result.value.length;
-            var newMailAssets = [];
-
-            // console.log('getMessages returned ' + result.value.length + ' messages.');
-            var inbox = result['value'];
-
-            // Query inbox for emails
-            for (var i = 0; i < inbox.length; i++) {
-
-              // Store the new email headlines
-              newMailAssets.push(inbox[i]['Subject']);
-
-              // Check if there are new headlines
-              if (currentMailAssets.indexOf(inbox[i]['Subject']) > -1) {
-                // Nope! Old emails!
-              } else {
-
-                // Store the new emails into the saved array 
-                currentMailAssets.push(inbox[i]['Subject']);
-                slack.send({
-                    text: "`AP NOTIFICATION:` *"+inbox[i]['Subject']+'*',
-                    channel: '#trellotest',
-                    username: 'Associated Press',
-                    icon_emoji: ':Deathstar:',
-                });
-
-              }
-            }
-          }          
+          var inbox = result['value'];
+          console.log(inbox);
+          for (var x = 0; x < inbox.length; x++) {
+            slack.send({
+                  // username: 'Skepti-Kai',
+                  // text: "`Kaitest:` *"+inbox[x]['Subject']+'*',
+                  // icon_emoji: ':notsureif:',
+                  username: 'Associated Press',
+                  text: "`AP NOTIFICATION:` *"+inbox[x]['Subject']+'*',
+                  icon_emoji: ':Deathstar:',
+                  channel: '#trellotest',
+            });
+          }
         }
       });
   }
   else {
-    console.log('mailer.js broke!')
+    console.log(t, 'mailer.js broke!');
   }
-  setTimeout(checkMail, 100000); // 10 secs
-  console.log('mail pinged')
+  // setTimeout(checkMail, 100000); // 10 secs
+  setTimeout(checkMail, 10000); // 10 secs
+  console.log(t, 'mail pinged');
+  console.log(date);
+  console.log(savedTime);
+  savedTime = date;
 };
 
 module.exports = {
   tokenReceived: tokenReceived,
   getValueFromCookie: getValueFromCookie,
-  checkMail: checkMail
+  checkMail: checkMail,
+  refresh: refresh
 }
