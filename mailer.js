@@ -18,27 +18,6 @@ var momenttime = moment().tz("America/Los_Angeles").format();
 
 console.log('this is momenttime', momenttime);
 
-Date.prototype.yyyymmdd = function() {
-  var yyyy = this.getFullYear().toString();
-  var mm = (this.getMonth()+1).toString(); // getMonth() is zero-based
-  var dd  = this.getDate().toString();
-  var hr = (this.getHours()+4).toString();
-  var mn = this.getMinutes().toString();
-  var sc = this.getSeconds().toString();
-  return yyyy + (mm[1]?mm:"0"+mm[0]) + (dd[1]?dd:"0"+dd[0]) + hr + mn + sc; // padding
-};
-
-var sT = new Date();
-
-var rn = sT.yyyymmdd().toString();
-  var rnYear = rn.substring(0,4);
-  var rnMonth = rn.substring(4,6);
-  var rnDay = rn.substring(6,8);
-  var rnHour = rn.substring(8,10);
-  var rnMinute = rn.substring(10,12);
-  var rnSecond = rn.substring(12,14);
-
-// var savedTime = rnYear + '-' + rnMonth + '-' + rnDay + 'T' + rnHour + ':' + rnMinute + ':' + rnSecond + 'Z';
 var savedTime = momenttime;
 
 var refresh = function(){
@@ -50,7 +29,7 @@ var refresh = function(){
       console.log('refresh triggered')
     }
   }); 
-  setTimeout(refresh, 10000); // 10 secs
+  setTimeout(refresh, 180000); // 1000 = 1 sec, currently 30 mins
 };
 
 var tokenReceived = function(res, error, token) {
@@ -61,6 +40,7 @@ var tokenReceived = function(res, error, token) {
         savedToken = token.token.access_token;
         savedEmail = authHelper.getEmailFromIdToken(token.token.id_token);
         refreshToken = token.token.refresh_token;
+        console.log(token);
         res.redirect(302, 'https://data.lohud.com/bots/trellobot/');
         // res.redirect(302, 'http://localhost:8080/');
         res.end();
@@ -77,19 +57,6 @@ var getValueFromCookie = function(valueName, cookie) {
 };
 
 var checkMail = function(req, res) {
-
-
-  d = new Date();
-  
-  var today = d.yyyymmdd().toString();
-    var year = today.substring(0,4);
-    var month = today.substring(4,6);
-    var day = today.substring(6,8);
-    var hour = today.substring(8,10);
-    var minute = today.substring(10,12);
-    var second = today.substring(12,14);
-
-  // var date = year + '-' + month + '-' + day + 'T' + hour + ':' + minute + ':' + second + 'Z';
 
   // Use below for stage/prod
   var date = moment().tz("America/Los_Angeles").format();
@@ -139,7 +106,7 @@ var checkMail = function(req, res) {
     console.log(t, 'mailer.js broke!');
   }
   // setTimeout(checkMail, 100000); // 10 secs
-  setTimeout(checkMail, 10000); // 10 secs
+  setTimeout(checkMail, 10000);
   console.log(t, 'mail pinged');
   console.log(date);
   console.log(savedTime);

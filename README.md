@@ -33,4 +33,4 @@ The Outlook inbox receives specific alerts from various sources. This bot will w
 
 ##Dependencies
 
-Not all the installed dependencies are currently required/used. Feel free to junk some.
+Not all the installed dependencies are currently required/used. Feel free to junk some. I'll eventually do cleanup.

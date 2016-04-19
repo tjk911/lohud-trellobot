@@ -5,15 +5,14 @@ var express = require('express')
   , logger = require('morgan')
   , app = express()
   , port = process.env.PORT || 8080
-  , Trello = require('node-trello')
   , Slack = require('node-slack')
-  , bodyParser = require('body-parser')
-  , mailer = require('./mailer')
   , url = require('url')
   , http = require('http')
+  , bodyParser = require('body-parser')
+  , mailer = require('./mailer')
   , credentials = require('./credentials')
   , authHelper = require('./authHelper')
-  , t = new Trello(credentials.t1, credentials.t2)
+  , trello = require('./trello')
 
 var sassPaths = [
   'static/bower_components/foundation-sites/scss',
@@ -36,87 +35,11 @@ gulp.task('default', ['sass'], function() {
   gulp.watch(['scss/**/*.scss'], ['sass']);
 });
 
-
 var slack = new Slack(credentials.webhookUri);
 
-var currentLength = 0;
-var currentAssets = [];
-
-// URL arguments are passed in as an object.
-function grab() {
-  t.get(
-    "/1/lists/559ea8976fe031f2e5147baa/cards", { 
-      // filter: "open", 
-      // limit: "1" 
-    }, 
-    function(err, data) {
-      if (err) throw err;
-      // Check to see if there are changes
-      if (currentLength == data.length) {
-        // console.log("Don't do anything");
-      } else {
-        
-        // Update the base length
-        currentLength = data.length;
-        var newAssets = [];
-
-        // Loop through the list
-        for (var i = 0; i < data.length; i++){
-          // Check if list is push-worthy
-          if (i > 0) {
-            newAssets.push(data[i]['name']);
-
-            // Check if it exists in assets
-            if (currentAssets.indexOf(data[i]['name']) > -1) {
-              // console.log('found it')
-            } else {
-              // console.log(assets.indexOf(data[i]['name']))
-              // console.log('does not exist, so we are pushing and announcing')
-              currentAssets.push(data[i]['name']);
-              slack.send({
-                  text: "`"+data[i]['name']+'` is ready',
-                  channel: '#trellotest',
-                  username: 'Zoidberg',
-                  icon_emoji: ':Zoidberg:',
-              });
-            }
-          }
-        }
-        // End loop through the list
-
-        // Loop through the asset
-        for (var x = 0; x < currentAssets.length; x++){
-          var assetpos = newAssets.indexOf(currentAssets[x]);
-
-          // check if assets exist in data
-          if (newAssets.indexOf(currentAssets[x]) > -1){
-            // console.log(currentAssets[x]+' is still here')
-          } else {
-            // console.log(currentAssets[x]+' is now gone')
-            slack.send({
-                text: "`"+currentAssets[x]+'` has been posted',
-                channel: '#trellotest',
-                username: 'Zoidberg',
-                icon_emoji: ':Zoidberg:',
-            }, function(err, response){
-              // console.log(response);
-              currentAssets = newAssets;
-            });
-          }
-        }
-        // end loop through the asset
-      }
-      
-    }
-  );
-  // set refresh frequency
-  setTimeout(grab, 2000);
-};
-
-grab();
+trello.grab();
 mailer.refresh();
 mailer.checkMail();
-
 
 app.use(logger('dev'))
 app.use(express.static(__dirname + '/static'))
@@ -141,13 +64,9 @@ app.get('/authorize', function (req, res) {
   var url_parts = url.parse(req.url, true);
   var code = url_parts.query.code;
   var token = authHelper.getTokenFromCode(code, mailer.tokenReceived, res);
-
   // console.log("Code: " + code);
   // console.log("Request handler 'authorize' was called.");
 })
-
-app.get('/mail', mailer.checkMail)
-
 
 app.post('/post',function(req,res) {
 
@@ -160,38 +79,18 @@ app.post('/post',function(req,res) {
   // Clean up the message
   message = rawmessage.replace('trellocomplete','')
 
-  // t.get(
-  //   "/1/lists/559ea8976fe031f2e5147baa/cards", { 
-  //     // filter: "open", 
-  //     // limit: "1" 
-  //   }, 
-  //   function(err, data) {
-  //     if (err) throw err;
-      
-  //     // Loop through the list
-  //     for (var i = 0; i < data.length; i++){
-  //       // Check if list is push-worthy
-  //       if (i > 0) {
+  console.log(message);
 
-  //       }
-  //     }
-  //     // End loop through the list
+  var reply =  {
+          // text: 'text = ' + message + '; user = ' + user,
+          text: 'Kai is da bomb. The Brannigan has spoken.',
+          username: 'Zap Brannigan',
+          icon_emoji: ':brannigan:',
+      };
 
-      
-  //   }
-  // );
-
-    var reply =  {
-            // text: 'text = ' + message + '; user = ' + user,
-            text: 'Kai is da bomb. The Brannigan has spoken.',
-            username: 'Zap Brannigan',
-            icon_emoji: ':brannigan:',
-        };
-
-    res.json(reply);
+  res.json(reply);
 
 });
-
 
 // LISTEN!
 app.listen(port, "localhost")
