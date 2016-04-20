@@ -70,14 +70,7 @@ app.get('/authorize', function (req, res){
 
 app.post('/post',function(req,res){
 
-  // Grab the message and user
-  // var allResponse = slack.respond(req.body, function(hook){
-  //   return rawmessage = hook.text,
-  //          user = hook.user_name
-  // });
-
   var response = req.body;
-  // console.log(response);
 
   // Clean up the message
   message = response['text'].replace(response['trigger_word'] + ' ','');

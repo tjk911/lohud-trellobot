@@ -1,0 +1,229 @@
+Apr 14 16:20:02 Ess000301 CRON[24264]: (mets) CMD (php /home/mets/file_processor.php)
+Apr 20 06:30:01 Ess000301 CRON[24283]: (root) CMD (/var/www/embeds/NYCtrafficcam/cronwrite.php)
+Apr 20 06:30:01 Ess000301 CRON[24285]: (www-data) CMD ([ -x /usr/share/awstats/tools/update.sh ] && /usr/share/awstats/tools/update.sh)
+Apr 20 06:30:01 Ess000301 CRON[24287]: (gregw) CMD (php /home/gregw/file_processor.php)
+Apr 20 06:30:02 Ess000301 postfix/pickup[23825]: 0A054730055: uid=0 from=<root>
+Apr 20 06:30:02 Ess000301 postfix/cleanup[24303]: 0A054730055: message-id=<20160420133002.0A054730055@data.lohud.com>
+Apr 20 06:30:02 Ess000301 postfix/qmgr[1401]: 0A054730055: from=<root@data.lohud.com>, size=1369, nrcpt=1 (queue active)
+Apr 20 06:30:02 Ess000301 postfix/local[24309]: 0A054730055: to=<root@data.lohud.com>, orig_to=<root>, relay=local, delay=0.35, delays=0.24/0/0/0.11, dsn=2.0.0, status=sent (delivered to mailbox)
+Apr 20 06:30:02 Ess000301 postfix/qmgr[1401]: 0A054730055: removed
+Apr 20 06:30:02 Ess000301 postfix/pickup[23825]: 38EFC730057: uid=33 from=<www-data>
+Apr 20 06:30:02 Ess000301 postfix/cleanup[24303]: 38EFC730057: message-id=<20160420133002.38EFC730057@data.lohud.com>
+Apr 20 06:30:02 Ess000301 postfix/qmgr[1401]: 38EFC730057: from=<www-data@data.lohud.com>, size=933, nrcpt=1 (queue active)
+Apr 20 06:30:02 Ess000301 postfix/local[24309]: 38EFC730057: to=<root@data.lohud.com>, orig_to=<root>, relay=local, delay=0.27, delays=0.2/0/0/0.07, dsn=2.0.0, status=sent (delivered to mailbox)
+Apr 20 06:30:02 Ess000301 postfix/qmgr[1401]: 38EFC730057: removed
+Apr 20 06:35:01 Ess000301 CRON[24451]: (gregw) CMD (php /home/gregw/file_processor.php)
+Apr 20 06:35:01 Ess000301 CRON[24453]: (mets) CMD (php /home/mets/file_processor.php)
+Apr 20 06:37:10 Ess000301 postfix/smtpd[24498]: connect from unknown[65.157.76.182]
+Apr 20 06:37:11 Ess000301 postfix/smtpd[24498]: disconnect from unknown[65.157.76.182]
+Apr 20 06:39:01 Ess000301 CRON[24534]: (root) CMD (  [ -x /usr/lib/php5/maxlifetime ] && [ -x /usr/lib/php5/sessionclean ] && [ -d /var/lib/php5 ] && /usr/lib/php5/sessionclean /var/lib/php5 $(/usr/lib/php5/maxlifetime))
+Apr 20 06:40:01 Ess000301 CRON[24564]: (www-data) CMD ([ -x /usr/share/awstats/tools/update.sh ] && /usr/share/awstats/tools/update.sh)
+Apr 20 06:40:01 Ess000301 CRON[24567]: (mets) CMD (php /home/mets/file_processor.php)
+Apr 20 06:40:01 Ess000301 CRON[24568]: (gregw) CMD (php /home/gregw/file_processor.php)
+Apr 20 06:40:01 Ess000301 postfix/pickup[23825]: D15D2730055: uid=33 from=<www-data>
+Apr 20 06:40:01 Ess000301 postfix/cleanup[24583]: D15D2730055: message-id=<20160420134001.D15D2730055@data.lohud.com>
+Apr 20 06:40:01 Ess000301 postfix/qmgr[1401]: D15D2730055: from=<www-data@data.lohud.com>, size=933, nrcpt=1 (queue active)
+Apr 20 06:40:02 Ess000301 postfix/local[24585]: D15D2730055: to=<root@data.lohud.com>, orig_to=<root>, relay=local, delay=0.34, delays=0.27/0/0/0.08, dsn=2.0.0, status=sent (delivered to mailbox)
+Apr 20 06:40:02 Ess000301 postfix/qmgr[1401]: D15D2730055: removed
+Apr 20 06:40:31 Ess000301 postfix/anvil[24500]: statistics: max connection rate 1/60s for (smtp:65.157.76.182) at Apr 20 06:37:10
+Apr 20 06:40:31 Ess000301 postfix/anvil[24500]: statistics: max connection count 1 for (smtp:65.157.76.182) at Apr 20 06:37:10
+Apr 20 06:40:31 Ess000301 postfix/anvil[24500]: statistics: max cache size 1 at Apr 20 06:37:10
+Apr 20 06:45:01 Ess000301 CRON[24626]: (gregw) CMD (php /home/gregw/file_processor.php)
+Apr 20 06:45:01 Ess000301 CRON[24628]: (mets) CMD (php /home/mets/file_processor.php)
+Apr 20 06:50:01 Ess000301 CRON[24661]: (www-data) CMD ([ -x /usr/share/awstats/tools/update.sh ] && /usr/share/awstats/tools/update.sh)
+Apr 20 06:50:01 Ess000301 CRON[24662]: (gregw) CMD (php /home/gregw/file_processor.php)
+Apr 20 06:50:01 Ess000301 CRON[24664]: (mets) CMD (php /home/mets/file_processor.php)
+Apr 20 06:50:02 Ess000301 postfix/pickup[23825]: 54031730055: uid=33 from=<www-data>
+Apr 20 06:50:02 Ess000301 postfix/cleanup[24680]: 54031730055: message-id=<20160420135002.54031730055@data.lohud.com>
+Apr 20 06:50:02 Ess000301 postfix/qmgr[1401]: 54031730055: from=<www-data@data.lohud.com>, size=933, nrcpt=1 (queue active)
+Apr 20 06:50:02 Ess000301 postfix/local[24682]: 54031730055: to=<root@data.lohud.com>, orig_to=<root>, relay=local, delay=0.41, delays=0.32/0/0/0.1, dsn=2.0.0, status=sent (delivered to mailbox)
+Apr 20 06:50:02 Ess000301 postfix/qmgr[1401]: 54031730055: removed
+Apr 20 06:55:01 Ess000301 CRON[24717]: (gregw) CMD (php /home/gregw/file_processor.php)
+Apr 20 06:55:01 Ess000301 CRON[24719]: (mets) CMD (php /home/mets/file_processor.php)
+Apr 20 07:00:01 Ess000301 CRON[24769]: (www-data) CMD ([ -x /usr/share/awstats/tools/update.sh ] && /usr/share/awstats/tools/update.sh)
+Apr 20 07:00:01 Ess000301 CRON[24771]: (mets) CMD (php /home/mets/file_processor.php)
+Apr 20 07:00:01 Ess000301 CRON[24773]: (root) CMD (/var/www/embeds/NYCtrafficcam/cronwrite.php)
+Apr 20 07:00:01 Ess000301 CRON[24775]: (gregw) CMD (php /home/gregw/file_processor.php)
+Apr 20 07:00:01 Ess000301 postfix/pickup[23825]: 75992730055: uid=0 from=<root>
+Apr 20 07:00:01 Ess000301 postfix/cleanup[24789]: 75992730055: message-id=<20160420140001.75992730055@data.lohud.com>
+Apr 20 07:00:01 Ess000301 postfix/qmgr[1401]: 75992730055: from=<root@data.lohud.com>, size=1369, nrcpt=1 (queue active)
+Apr 20 07:00:01 Ess000301 postfix/local[24791]: 75992730055: to=<root@data.lohud.com>, orig_to=<root>, relay=local, delay=0.26, delays=0.17/0/0/0.09, dsn=2.0.0, status=sent (delivered to mailbox)
+Apr 20 07:00:01 Ess000301 postfix/qmgr[1401]: 75992730055: removed
+Apr 20 07:00:01 Ess000301 postfix/pickup[23825]: B2A86730055: uid=33 from=<www-data>
+Apr 20 07:00:01 Ess000301 postfix/cleanup[24789]: B2A86730055: message-id=<20160420140001.B2A86730055@data.lohud.com>
+Apr 20 07:00:01 Ess000301 postfix/qmgr[1401]: B2A86730055: from=<www-data@data.lohud.com>, size=933, nrcpt=1 (queue active)
+Apr 20 07:00:01 Ess000301 postfix/local[24791]: B2A86730055: to=<root@data.lohud.com>, orig_to=<root>, relay=local, delay=0.25, delays=0.18/0/0/0.07, dsn=2.0.0, status=sent (delivered to mailbox)
+Apr 20 07:00:01 Ess000301 postfix/qmgr[1401]: B2A86730055: removed
+Apr 20 07:05:01 Ess000301 CRON[24863]: (gregw) CMD (php /home/gregw/file_processor.php)
+Apr 20 07:05:01 Ess000301 CRON[24865]: (mets) CMD (php /home/mets/file_processor.php)
+Apr 20 07:09:01 Ess000301 CRON[24936]: (root) CMD (  [ -x /usr/lib/php5/maxlifetime ] && [ -x /usr/lib/php5/sessionclean ] && [ -d /var/lib/php5 ] && /usr/lib/php5/sessionclean /var/lib/php5 $(/usr/lib/php5/maxlifetime))
+Apr 17 23:25:01 Ess000301 CRON[24950]: (mets) CMD (php /home/mets/file_processor.php)
+Apr 20 07:10:01 Ess000301 CRON[24969]: (www-data) CMD ([ -x /usr/share/awstats/tools/update.sh ] && /usr/share/awstats/tools/update.sh)
+Apr 20 07:10:01 Ess000301 CRON[24970]: (gregw) CMD (php /home/gregw/file_processor.php)
+Apr 20 07:10:01 Ess000301 CRON[24972]: (mets) CMD (php /home/mets/file_processor.php)
+Apr 20 07:10:02 Ess000301 postfix/pickup[23825]: 4AAA3730055: uid=33 from=<www-data>
+Apr 20 07:10:02 Ess000301 postfix/cleanup[24989]: 4AAA3730055: message-id=<20160420141002.4AAA3730055@data.lohud.com>
+Apr 20 07:10:02 Ess000301 postfix/qmgr[1401]: 4AAA3730055: from=<www-data@data.lohud.com>, size=933, nrcpt=1 (queue active)
+Apr 20 07:10:02 Ess000301 postfix/local[24991]: 4AAA3730055: to=<root@data.lohud.com>, orig_to=<root>, relay=local, delay=0.32, delays=0.23/0/0/0.09, dsn=2.0.0, status=sent (delivered to mailbox)
+Apr 20 07:10:02 Ess000301 postfix/qmgr[1401]: 4AAA3730055: removed
+Apr 20 07:15:01 Ess000301 CRON[25093]: (gregw) CMD (php /home/gregw/file_processor.php)
+Apr 20 07:15:01 Ess000301 CRON[25095]: (mets) CMD (php /home/mets/file_processor.php)
+Apr 20 07:17:01 Ess000301 CRON[25128]: (root) CMD (   cd / && run-parts --report /etc/cron.hourly)
+Apr 20 07:20:01 Ess000301 CRON[25158]: (www-data) CMD ([ -x /usr/share/awstats/tools/update.sh ] && /usr/share/awstats/tools/update.sh)
+Apr 20 07:20:01 Ess000301 CRON[25159]: (gregw) CMD (php /home/gregw/file_processor.php)
+Apr 20 07:20:01 Ess000301 CRON[25166]: (mets) CMD (php /home/mets/file_processor.php)
+Apr 20 07:20:01 Ess000301 postfix/pickup[23825]: B2CAE730055: uid=33 from=<www-data>
+Apr 20 07:20:01 Ess000301 postfix/cleanup[25177]: B2CAE730055: message-id=<20160420142001.B2CAE730055@data.lohud.com>
+Apr 20 07:20:01 Ess000301 postfix/qmgr[1401]: B2CAE730055: from=<www-data@data.lohud.com>, size=933, nrcpt=1 (queue active)
+Apr 20 07:20:01 Ess000301 postfix/local[25179]: B2CAE730055: to=<root@data.lohud.com>, orig_to=<root>, relay=local, delay=0.26, delays=0.2/0/0/0.06, dsn=2.0.0, status=sent (delivered to mailbox)
+Apr 20 07:20:01 Ess000301 postfix/qmgr[1401]: B2CAE730055: removed
+Apr 20 07:25:01 Ess000301 CRON[25209]: (gregw) CMD (php /home/gregw/file_processor.php)
+Apr 20 07:25:01 Ess000301 CRON[25210]: (mets) CMD (php /home/mets/file_processor.php)
+Apr 20 07:30:01 Ess000301 CRON[25255]: (www-data) CMD ([ -x /usr/share/awstats/tools/update.sh ] && /usr/share/awstats/tools/update.sh)
+Apr 20 07:30:01 Ess000301 CRON[25257]: (mets) CMD (php /home/mets/file_processor.php)
+Apr 20 07:30:01 Ess000301 CRON[25258]: (gregw) CMD (php /home/gregw/file_processor.php)
+Apr 20 07:30:01 Ess000301 CRON[25260]: (root) CMD (/var/www/embeds/NYCtrafficcam/cronwrite.php)
+Apr 20 07:30:01 Ess000301 postfix/pickup[23825]: E174A730055: uid=0 from=<root>
+Apr 20 07:30:01 Ess000301 postfix/cleanup[25275]: E174A730055: message-id=<20160420143001.E174A730055@data.lohud.com>
+Apr 20 07:30:02 Ess000301 postfix/qmgr[1401]: E174A730055: from=<root@data.lohud.com>, size=1369, nrcpt=1 (queue active)
+Apr 20 07:30:02 Ess000301 postfix/local[25279]: E174A730055: to=<root@data.lohud.com>, orig_to=<root>, relay=local, delay=0.33, delays=0.23/0/0/0.09, dsn=2.0.0, status=sent (delivered to mailbox)
+Apr 20 07:30:02 Ess000301 postfix/qmgr[1401]: E174A730055: removed
+Apr 20 07:30:02 Ess000301 postfix/pickup[23825]: 2213F730055: uid=33 from=<www-data>
+Apr 20 07:30:02 Ess000301 postfix/cleanup[25275]: 2213F730055: message-id=<20160420143002.2213F730055@data.lohud.com>
+Apr 20 07:30:02 Ess000301 postfix/qmgr[1401]: 2213F730055: from=<www-data@data.lohud.com>, size=933, nrcpt=1 (queue active)
+Apr 20 07:30:02 Ess000301 postfix/local[25279]: 2213F730055: to=<root@data.lohud.com>, orig_to=<root>, relay=local, delay=0.26, delays=0.19/0/0/0.07, dsn=2.0.0, status=sent (delivered to mailbox)
+Apr 20 07:30:02 Ess000301 postfix/qmgr[1401]: 2213F730055: removed
+Apr 20 07:35:01 Ess000301 CRON[25373]: (gregw) CMD (php /home/gregw/file_processor.php)
+Apr 20 07:35:01 Ess000301 CRON[25375]: (mets) CMD (php /home/mets/file_processor.php)
+Apr 16 05:45:01 Ess000301 CRON[25405]: (gregw) CMD (php /home/gregw/file_processor.php)
+Apr 20 07:39:01 Ess000301 CRON[25405]: (root) CMD (  [ -x /usr/lib/php5/maxlifetime ] && [ -x /usr/lib/php5/sessionclean ] && [ -d /var/lib/php5 ] && /usr/lib/php5/sessionclean /var/lib/php5 $(/usr/lib/php5/maxlifetime))
+Apr 20 07:40:01 Ess000301 CRON[25423]: (gregw) CMD (php /home/gregw/file_processor.php)
+Apr 20 07:40:01 Ess000301 CRON[25424]: (www-data) CMD ([ -x /usr/share/awstats/tools/update.sh ] && /usr/share/awstats/tools/update.sh)
+Apr 20 07:40:01 Ess000301 CRON[25428]: (mets) CMD (php /home/mets/file_processor.php)
+Apr 20 07:40:01 Ess000301 postfix/pickup[23825]: AA544730055: uid=33 from=<www-data>
+Apr 20 07:40:01 Ess000301 postfix/cleanup[25442]: AA544730055: message-id=<20160420144001.AA544730055@data.lohud.com>
+Apr 20 07:40:01 Ess000301 postfix/qmgr[1401]: AA544730055: from=<www-data@data.lohud.com>, size=933, nrcpt=1 (queue active)
+Apr 20 07:40:01 Ess000301 postfix/local[25444]: AA544730055: to=<root@data.lohud.com>, orig_to=<root>, relay=local, delay=0.28, delays=0.2/0/0/0.07, dsn=2.0.0, status=sent (delivered to mailbox)
+Apr 20 07:40:01 Ess000301 postfix/qmgr[1401]: AA544730055: removed
+Apr 19 08:30:01 Ess000301 CRON[25549]: (gregw) CMD (php /home/gregw/file_processor.php)
+Apr 20 07:45:01 Ess000301 CRON[25667]: (mets) CMD (php /home/mets/file_processor.php)
+Apr 20 07:45:01 Ess000301 CRON[25670]: (gregw) CMD (php /home/gregw/file_processor.php)
+Apr 20 07:50:01 Ess000301 CRON[25764]: (www-data) CMD ([ -x /usr/share/awstats/tools/update.sh ] && /usr/share/awstats/tools/update.sh)
+Apr 20 07:50:01 Ess000301 CRON[25767]: (mets) CMD (php /home/mets/file_processor.php)
+Apr 20 07:50:01 Ess000301 CRON[25768]: (gregw) CMD (php /home/gregw/file_processor.php)
+Apr 20 07:50:02 Ess000301 postfix/pickup[25584]: 31AF4730055: uid=33 from=<www-data>
+Apr 20 07:50:02 Ess000301 postfix/cleanup[25783]: 31AF4730055: message-id=<20160420145002.31AF4730055@data.lohud.com>
+Apr 20 07:50:02 Ess000301 postfix/qmgr[1401]: 31AF4730055: from=<www-data@data.lohud.com>, size=933, nrcpt=1 (queue active)
+Apr 20 07:50:02 Ess000301 postfix/local[25785]: 31AF4730055: to=<root@data.lohud.com>, orig_to=<root>, relay=local, delay=0.38, delays=0.28/0/0/0.1, dsn=2.0.0, status=sent (delivered to mailbox)
+Apr 20 07:50:02 Ess000301 postfix/qmgr[1401]: 31AF4730055: removed
+Apr 20 07:55:01 Ess000301 CRON[25815]: (gregw) CMD (php /home/gregw/file_processor.php)
+Apr 20 07:55:01 Ess000301 CRON[25817]: (mets) CMD (php /home/mets/file_processor.php)
+Apr 20 08:00:01 Ess000301 CRON[25859]: (root) CMD (/var/www/embeds/NYCtrafficcam/cronwrite.php)
+Apr 20 08:00:01 Ess000301 CRON[25860]: (www-data) CMD ([ -x /usr/share/awstats/tools/update.sh ] && /usr/share/awstats/tools/update.sh)
+Apr 20 08:00:01 Ess000301 CRON[25861]: (mets) CMD (php /home/mets/file_processor.php)
+Apr 20 08:00:01 Ess000301 CRON[25863]: (gregw) CMD (php /home/gregw/file_processor.php)
+Apr 20 08:00:01 Ess000301 postfix/pickup[25584]: 5FC1D730055: uid=0 from=<root>
+Apr 20 08:00:01 Ess000301 postfix/cleanup[25879]: 5FC1D730055: message-id=<20160420150001.5FC1D730055@data.lohud.com>
+Apr 20 08:00:01 Ess000301 postfix/qmgr[1401]: 5FC1D730055: from=<root@data.lohud.com>, size=1369, nrcpt=1 (queue active)
+Apr 20 08:00:01 Ess000301 postfix/local[25881]: 5FC1D730055: to=<root@data.lohud.com>, orig_to=<root>, relay=local, delay=0.31, delays=0.22/0/0/0.09, dsn=2.0.0, status=sent (delivered to mailbox)
+Apr 20 08:00:01 Ess000301 postfix/qmgr[1401]: 5FC1D730055: removed
+Apr 20 08:00:01 Ess000301 postfix/pickup[25584]: 98937730055: uid=33 from=<www-data>
+Apr 20 08:00:01 Ess000301 postfix/cleanup[25879]: 98937730055: message-id=<20160420150001.98937730055@data.lohud.com>
+Apr 20 08:00:01 Ess000301 postfix/qmgr[1401]: 98937730055: from=<www-data@data.lohud.com>, size=933, nrcpt=1 (queue active)
+Apr 20 08:00:01 Ess000301 postfix/local[25881]: 98937730055: to=<root@data.lohud.com>, orig_to=<root>, relay=local, delay=0.25, delays=0.18/0/0/0.08, dsn=2.0.0, status=sent (delivered to mailbox)
+Apr 20 08:00:01 Ess000301 postfix/qmgr[1401]: 98937730055: removed
+Apr 20 08:04:12 Ess000301 postfix/smtpd[25914]: connect from unknown[65.157.76.182]
+Apr 20 08:04:12 Ess000301 postfix/smtpd[25914]: disconnect from unknown[65.157.76.182]
+Apr 20 08:05:01 Ess000301 CRON[25924]: (gregw) CMD (php /home/gregw/file_processor.php)
+Apr 20 08:05:01 Ess000301 CRON[25926]: (mets) CMD (php /home/mets/file_processor.php)
+Apr 20 08:07:33 Ess000301 postfix/anvil[25916]: statistics: max connection rate 1/60s for (smtp:65.157.76.182) at Apr 20 08:04:12
+Apr 20 08:07:33 Ess000301 postfix/anvil[25916]: statistics: max connection count 1 for (smtp:65.157.76.182) at Apr 20 08:04:12
+Apr 20 08:07:33 Ess000301 postfix/anvil[25916]: statistics: max cache size 1 at Apr 20 08:04:12
+Apr 20 08:09:01 Ess000301 CRON[25971]: (root) CMD (  [ -x /usr/lib/php5/maxlifetime ] && [ -x /usr/lib/php5/sessionclean ] && [ -d /var/lib/php5 ] && /usr/lib/php5/sessionclean /var/lib/php5 $(/usr/lib/php5/maxlifetime))
+Apr 20 08:10:01 Ess000301 CRON[25998]: (mets) CMD (php /home/mets/file_processor.php)
+Apr 20 08:10:01 Ess000301 CRON[25999]: (www-data) CMD ([ -x /usr/share/awstats/tools/update.sh ] && /usr/share/awstats/tools/update.sh)
+Apr 20 08:10:01 Ess000301 CRON[26001]: (gregw) CMD (php /home/gregw/file_processor.php)
+Apr 20 08:10:02 Ess000301 postfix/pickup[25584]: 34ED7730055: uid=33 from=<www-data>
+Apr 20 08:10:02 Ess000301 postfix/cleanup[26017]: 34ED7730055: message-id=<20160420151002.34ED7730055@data.lohud.com>
+Apr 20 08:10:02 Ess000301 postfix/qmgr[1401]: 34ED7730055: from=<www-data@data.lohud.com>, size=933, nrcpt=1 (queue active)
+Apr 20 08:10:02 Ess000301 postfix/local[26019]: 34ED7730055: to=<root@data.lohud.com>, orig_to=<root>, relay=local, delay=0.33, delays=0.22/0/0/0.1, dsn=2.0.0, status=sent (delivered to mailbox)
+Apr 20 08:10:02 Ess000301 postfix/qmgr[1401]: 34ED7730055: removed
+Apr 20 08:15:01 Ess000301 CRON[26231]: (gregw) CMD (php /home/gregw/file_processor.php)
+Apr 20 08:15:01 Ess000301 CRON[26232]: (mets) CMD (php /home/mets/file_processor.php)
+Apr 20 08:17:01 Ess000301 CRON[26257]: (root) CMD (   cd / && run-parts --report /etc/cron.hourly)
+Apr 20 08:20:01 Ess000301 CRON[26464]: (gregw) CMD (php /home/gregw/file_processor.php)
+Apr 20 08:20:01 Ess000301 CRON[26467]: (mets) CMD (php /home/mets/file_processor.php)
+Apr 20 08:20:01 Ess000301 postfix/pickup[25584]: B7772730055: uid=33 from=<www-data>
+Apr 20 08:20:01 Ess000301 postfix/cleanup[26482]: B7772730055: message-id=<20160420152001.B7772730055@data.lohud.com>
+Apr 20 08:20:01 Ess000301 postfix/qmgr[1401]: B7772730055: from=<www-data@data.lohud.com>, size=933, nrcpt=1 (queue active)
+Apr 20 08:20:01 Ess000301 postfix/local[26484]: B7772730055: to=<root@data.lohud.com>, orig_to=<root>, relay=local, delay=0.34, delays=0.25/0/0/0.09, dsn=2.0.0, status=sent (delivered to mailbox)
+Apr 20 08:20:01 Ess000301 postfix/qmgr[1401]: B7772730055: removed
+Apr 20 08:21:59 Ess000301 postfix/pickup[25584]: 4FC05730055: uid=33 from=<www-data>
+Apr 20 08:21:59 Ess000301 postfix/cleanup[26504]: 4FC05730055: message-id=<20160420152159.4FC05730055@data.lohud.com>
+Apr 20 08:21:59 Ess000301 postfix/qmgr[1401]: 4FC05730055: from=<www-data@data.lohud.com>, size=464, nrcpt=1 (queue active)
+Apr 20 08:22:01 Ess000301 postfix/smtp[26506]: 4FC05730055: to=<letters@lohud.com>, relay=lohud-com.mail.protection.outlook.com[207.46.163.138]:25, delay=2.9, delays=0.39/0/0.91/1.5, dsn=2.6.0, status=sent (250 2.6.0 <20160420152159.4FC05730055@data.lohud.com> [InternalId=66103841656292, Hostname=BY1PR0101MB0965.prod.exchangelabs.com] 6157 bytes in 0.667, 9.007 KB/sec Queued mail for delivery)
+Apr 20 08:22:01 Ess000301 postfix/qmgr[1401]: 4FC05730055: removed
+Apr 20 08:25:01 Ess000301 CRON[26534]: (gregw) CMD (php /home/gregw/file_processor.php)
+Apr 20 08:25:01 Ess000301 CRON[26536]: (mets) CMD (php /home/mets/file_processor.php)
+Apr 20 08:30:01 Ess000301 CRON[26697]: (www-data) CMD ([ -x /usr/share/awstats/tools/update.sh ] && /usr/share/awstats/tools/update.sh)
+Apr 20 08:30:01 Ess000301 CRON[26698]: (root) CMD (/var/www/embeds/NYCtrafficcam/cronwrite.php)
+Apr 20 08:30:01 Ess000301 CRON[26700]: (gregw) CMD (php /home/gregw/file_processor.php)
+Apr 20 08:30:01 Ess000301 CRON[26699]: (mets) CMD (php /home/mets/file_processor.php)
+Apr 20 08:30:01 Ess000301 postfix/pickup[25584]: E9030730055: uid=0 from=<root>
+Apr 20 08:30:01 Ess000301 postfix/cleanup[26717]: E9030730055: message-id=<20160420153001.E9030730055@data.lohud.com>
+Apr 20 08:30:02 Ess000301 postfix/qmgr[1401]: E9030730055: from=<root@data.lohud.com>, size=1369, nrcpt=1 (queue active)
+Apr 20 08:30:02 Ess000301 postfix/local[26719]: E9030730055: to=<root@data.lohud.com>, orig_to=<root>, relay=local, delay=0.34, delays=0.23/0/0/0.1, dsn=2.0.0, status=sent (delivered to mailbox)
+Apr 20 08:30:02 Ess000301 postfix/qmgr[1401]: E9030730055: removed
+Apr 20 08:30:02 Ess000301 postfix/pickup[25584]: 33F98730055: uid=33 from=<www-data>
+Apr 20 08:30:02 Ess000301 postfix/cleanup[26717]: 33F98730055: message-id=<20160420153002.33F98730055@data.lohud.com>
+Apr 20 08:30:02 Ess000301 postfix/qmgr[1401]: 33F98730055: from=<www-data@data.lohud.com>, size=933, nrcpt=1 (queue active)
+Apr 20 08:30:02 Ess000301 postfix/local[26719]: 33F98730055: to=<root@data.lohud.com>, orig_to=<root>, relay=local, delay=0.32, delays=0.24/0/0/0.08, dsn=2.0.0, status=sent (delivered to mailbox)
+Apr 20 08:30:02 Ess000301 postfix/qmgr[1401]: 33F98730055: removed
+Apr 20 08:35:01 Ess000301 CRON[26785]: (gregw) CMD (php /home/gregw/file_processor.php)
+Apr 20 08:35:01 Ess000301 CRON[26787]: (mets) CMD (php /home/mets/file_processor.php)
+Apr 20 08:39:01 Ess000301 CRON[26843]: (root) CMD (  [ -x /usr/lib/php5/maxlifetime ] && [ -x /usr/lib/php5/sessionclean ] && [ -d /var/lib/php5 ] && /usr/lib/php5/sessionclean /var/lib/php5 $(/usr/lib/php5/maxlifetime))
+Apr 20 08:40:01 Ess000301 CRON[26874]: (www-data) CMD ([ -x /usr/share/awstats/tools/update.sh ] && /usr/share/awstats/tools/update.sh)
+Apr 20 08:40:01 Ess000301 CRON[26875]: (mets) CMD (php /home/mets/file_processor.php)
+Apr 20 08:40:01 Ess000301 CRON[26879]: (gregw) CMD (php /home/gregw/file_processor.php)
+Apr 20 08:40:01 Ess000301 postfix/pickup[25584]: D6B9A730055: uid=33 from=<www-data>
+Apr 20 08:40:01 Ess000301 postfix/cleanup[26895]: D6B9A730055: message-id=<20160420154001.D6B9A730055@data.lohud.com>
+Apr 20 08:40:01 Ess000301 postfix/qmgr[1401]: D6B9A730055: from=<www-data@data.lohud.com>, size=933, nrcpt=1 (queue active)
+Apr 20 08:40:02 Ess000301 postfix/local[26897]: D6B9A730055: to=<root@data.lohud.com>, orig_to=<root>, relay=local, delay=0.38, delays=0.28/0/0/0.09, dsn=2.0.0, status=sent (delivered to mailbox)
+Apr 20 08:40:02 Ess000301 postfix/qmgr[1401]: D6B9A730055: removed
+Apr 20 08:45:01 Ess000301 CRON[26943]: (gregw) CMD (php /home/gregw/file_processor.php)
+Apr 20 08:45:01 Ess000301 CRON[26945]: (mets) CMD (php /home/mets/file_processor.php)
+Apr 20 08:50:01 Ess000301 CRON[26999]: (www-data) CMD ([ -x /usr/share/awstats/tools/update.sh ] && /usr/share/awstats/tools/update.sh)
+Apr 20 08:50:01 Ess000301 CRON[27000]: (mets) CMD (php /home/mets/file_processor.php)
+Apr 20 08:50:02 Ess000301 postfix/pickup[25584]: 4B87C730055: uid=33 from=<www-data>
+Apr 20 08:50:02 Ess000301 postfix/cleanup[27018]: 4B87C730055: message-id=<20160420155002.4B87C730055@data.lohud.com>
+Apr 20 08:50:02 Ess000301 postfix/qmgr[1401]: 4B87C730055: from=<www-data@data.lohud.com>, size=933, nrcpt=1 (queue active)
+Apr 20 08:50:03 Ess000301 postfix/local[27020]: 4B87C730055: to=<root@data.lohud.com>, orig_to=<root>, relay=local, delay=0.83, delays=0.28/0/0/0.55, dsn=2.0.0, status=sent (delivered to mailbox)
+Apr 20 08:50:03 Ess000301 postfix/qmgr[1401]: 4B87C730055: removed
+Apr 20 08:55:01 Ess000301 CRON[27095]: (gregw) CMD (php /home/gregw/file_processor.php)
+Apr 20 08:55:01 Ess000301 CRON[27097]: (mets) CMD (php /home/mets/file_processor.php)
+Apr 20 08:56:26 Ess000301 crontab[27190]: (root) BEGIN EDIT (root)
+Apr 20 08:57:14 Ess000301 crontab[27190]: (root) REPLACE (root)
+Apr 20 08:57:14 Ess000301 crontab[27190]: (root) END EDIT (root)
+Apr 20 08:58:01 Ess000301 CRON[27266]: (root) CMD (env > /tmp/env.output)
+Apr 20 08:59:01 Ess000301 CRON[27326]: (root) CMD (env > /tmp/env.output)
+Apr 20 09:00:01 Ess000301 CRON[27349]: (www-data) CMD ([ -x /usr/share/awstats/tools/update.sh ] && /usr/share/awstats/tools/update.sh)
+Apr 20 09:00:01 Ess000301 CRON[27356]: (root) CMD (/var/www/embeds/NYCtrafficcam/cronwrite.php)
+Apr 20 09:00:01 Ess000301 CRON[27352]: (root) CMD (env > /tmp/env.output)
+Apr 20 09:00:01 Ess000301 CRON[27358]: (gregw) CMD (php /home/gregw/file_processor.php)
+Apr 20 09:00:01 Ess000301 CRON[27366]: (mets) CMD (php /home/mets/file_processor.php)
+Apr 20 09:00:01 Ess000301 postfix/pickup[25584]: 985CF730055: uid=0 from=<root>
+Apr 20 09:00:01 Ess000301 postfix/cleanup[27371]: 985CF730055: message-id=<20160420160001.985CF730055@data.lohud.com>
+Apr 20 09:00:01 Ess000301 postfix/qmgr[1401]: 985CF730055: from=<root@data.lohud.com>, size=1369, nrcpt=1 (queue active)
+Apr 20 09:00:01 Ess000301 postfix/pickup[25584]: B8D14730054: uid=33 from=<www-data>
+Apr 20 09:00:01 Ess000301 postfix/cleanup[27371]: B8D14730054: message-id=<20160420160001.B8D14730054@data.lohud.com>
+Apr 20 09:00:01 Ess000301 postfix/local[27378]: 985CF730055: to=<root@data.lohud.com>, orig_to=<root>, relay=local, delay=0.5, delays=0.35/0/0/0.14, dsn=2.0.0, status=sent (delivered to mailbox)
+Apr 20 09:00:01 Ess000301 postfix/qmgr[1401]: B8D14730054: from=<www-data@data.lohud.com>, size=933, nrcpt=1 (queue active)
+Apr 20 09:00:01 Ess000301 postfix/qmgr[1401]: 985CF730055: removed
+Apr 20 09:00:02 Ess000301 postfix/local[27378]: B8D14730054: to=<root@data.lohud.com>, orig_to=<root>, relay=local, delay=0.34, delays=0.23/0/0/0.1, dsn=2.0.0, status=sent (delivered to mailbox)
+Apr 20 09:00:02 Ess000301 postfix/qmgr[1401]: B8D14730054: removed
+Apr 20 09:01:01 Ess000301 CRON[27388]: (root) CMD (env > /tmp/env.output)
+Apr 20 09:02:01 Ess000301 CRON[27395]: (root) CMD (env > /tmp/env.output)
+Apr 20 09:03:01 Ess000301 CRON[27403]: (root) CMD (env > /tmp/env.output)
+Apr 20 09:03:19 Ess000301 crontab[27405]: (root) BEGIN EDIT (root)
+Apr 20 09:03:35 Ess000301 crontab[27405]: (root) REPLACE (root)
+Apr 20 09:03:35 Ess000301 crontab[27405]: (root) END EDIT (root)
