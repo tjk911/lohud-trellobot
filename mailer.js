@@ -41,7 +41,9 @@ var tokenReceived = function(res, error, token) {
         savedEmail = authHelper.getEmailFromIdToken(token.token.id_token);
         refreshToken = token.token.refresh_token;
         console.log(token);
+        // Use below for stage/prod
         res.redirect(302, 'https://data.lohud.com/bots/trellobot/');
+        // Use below for dev
         // res.redirect(302, 'http://localhost:8080/');
         res.end();
       }

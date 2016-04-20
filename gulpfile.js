@@ -19,7 +19,7 @@ var sassPaths = [
   'static/bower_components/motion-ui/src'
 ];
 
-gulp.task('sass', function() {
+gulp.task('sass', function(){
   return gulp.src('scss/app.scss')
     .pipe($.sass({
       includePaths: sassPaths
@@ -31,7 +31,7 @@ gulp.task('sass', function() {
     .pipe(gulp.dest('static/css'));
 });
 
-gulp.task('default', ['sass'], function() {
+gulp.task('default', ['sass'], function(){
   gulp.watch(['scss/**/*.scss'], ['sass']);
 });
 
@@ -49,18 +49,18 @@ app.use(bodyParser.urlencoded({ extended: true }));
 // Tell app to use jade
 app.set('view engine', 'jade');
 
-app.get('/', function (req, res, next) {
+app.get('/', function (req, res, next){
   try {
     res.render('homepage', {
       title : 'Trellobot | lohud.com',
       auth: authHelper.getAuthUrl()
     });
-  } catch (e) {
+  } catch (e){
     next(e)
   }
 })
 
-app.get('/authorize', function (req, res) {
+app.get('/authorize', function (req, res){
   var url_parts = url.parse(req.url, true);
   var code = url_parts.query.code;
   var token = authHelper.getTokenFromCode(code, mailer.tokenReceived, res);
@@ -68,27 +68,95 @@ app.get('/authorize', function (req, res) {
   // console.log("Request handler 'authorize' was called.");
 })
 
-app.post('/post',function(req,res) {
+app.post('/post',function(req,res){
 
   // Grab the message and user
-  var allResponse = slack.respond(req.body, function(hook){
-    return rawmessage = hook.text,
-           user = hook.user_name
-  });
+  // var allResponse = slack.respond(req.body, function(hook){
+  //   return rawmessage = hook.text,
+  //          user = hook.user_name
+  // });
+
+  var response = req.body;
+  // console.log(response);
 
   // Clean up the message
-  message = rawmessage.replace('trellocomplete','')
+  message = response['text'].replace(response['trigger_word'] + ' ','');
+  channel = "#" + response['channel_name'];
 
-  console.log(message);
+  var command = message.split(" ");
+  var typeofCommand = command[0];
 
-  var reply =  {
-          // text: 'text = ' + message + '; user = ' + user,
-          text: 'Kai is da bomb. The Brannigan has spoken.',
+  if (typeofCommand == 'move'){
+    var assetId = command[1];
+    var destination = command[2];
+
+    var reply =  {
+          text: 'This is a move command to move assetId `' + assetId + '` to destination `' + destination +'`',
           username: 'Zap Brannigan',
           icon_emoji: ':brannigan:',
       };
+    trello.move(assetId, destination);
+
+  } else if (typeofCommand == 'list'){
+
+    var assets = trello.list();
+    console.log(assets);
+    var assetNames;
+
+    for (var i = 0; i < assets.length; i++){
+      slack.send({
+          text: "`"+assets[i]+'` is ready',
+          channel: channel,
+          username: 'Zoidberg',
+          icon_emoji: ':Zoidberg:',
+      });
+    }
+
+  } else if (typeofCommand == 'help'){
+    var typeofHelp = command[1];
+
+    if (typeofHelp == undefined){
+      var reply = {
+        text: 'Good news everyone! Type `trellobot (or /bot) help commandlist` to view a list of commands, or type `trellobot (or /bot) help *name of command*` to learn how the commands work',
+        username: 'Prof. Farnsworth',
+        icon_emoji: ':farnsworth:'
+      }
+    } else if (typeofHelp == 'commandlist'){
+      var reply = {
+        text: 'We currently have three commands! They are `list`, `move` and `help`',
+        username: 'Prof. Farnsworth',
+        icon_emoji: ':farnsworth:'
+      }
+    } else if (typeofHelp == 'list'){
+      var reply = {
+        text: 'Use `list` to view all stories available/ready for posting',
+        username: 'Prof. Farnsworth',
+        icon_emoji: ':farnsworth:'
+      }
+    } else if (typeofHelp == 'move'){
+      var reply = {
+        text: 'Use move, followed by ID number, followed by the name of the board. For example: `move 12345678 done` to move it to Done, or `move 87654321 embargoed` to move to Embargoed. It might take a few moments before the card moves.',
+        username: 'Prof. Farnsworth',
+        icon_emoji: ':farnsworth:'
+      }
+    } else if (typeofHelp == 'help'){
+      var reply = {
+        text: "I think we're stuck in an infinity loop...",
+        username: 'Prof. Farnsworth',
+        icon_emoji: ':farnsworth:'
+      }
+    }
+  } else {
+    var reply =  {
+            // text: 'text = ' + message,
+            text: "I just finished turbo-charging this bot's matter compressor! Type `help` to get started!",
+            username: 'Prof. Farnsworth',
+            icon_emoji: ':farnsworth:'
+        };
+  }
 
   res.json(reply);
+
 
 });
 
