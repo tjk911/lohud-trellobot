@@ -46,7 +46,6 @@ var grab = function() {
             if (currentAssets.indexOf(data[i]['name']) > -1) {
               // console.log('found it')
             } else {
-              // console.log(assets.indexOf(data[i]['name']))
               // console.log('does not exist, so we are pushing and announcing')
               currentAssets.push(data[i]['name']);
               slack.send({

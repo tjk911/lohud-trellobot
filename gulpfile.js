@@ -70,7 +70,14 @@ app.get('/authorize', function (req, res){
 
 app.post('/post',function(req,res){
 
+  // Grab the message and user
+  // var allResponse = slack.respond(req.body, function(hook){
+  //   return rawmessage = hook.text,
+  //          user = hook.user_name
+  // });
+
   var response = req.body;
+  // console.log(response);
 
   // Clean up the message
   message = response['text'].replace(response['trigger_word'] + ' ','');
@@ -91,7 +98,6 @@ app.post('/post',function(req,res){
     trello.move(assetId, destination);
 
   } else if (typeofCommand == 'list'){
-
     var assets = trello.list();
     console.log(assets);
     var assetNames;
@@ -128,7 +134,7 @@ app.post('/post',function(req,res){
       }
     } else if (typeofHelp == 'move'){
       var reply = {
-        text: 'Use move, followed by ID number, followed by the name of the board. For example: `move 12345678 done` to move it to Done, or `move 87654321 embargoed` to move to Embargoed. It might take a few moments before the card moves.',
+        text: 'Use move, followed by ID number, followed by the name of the list. For example: `move 12345678 done` to move it to Done, or `move 87654321 embargoed` to move to Embargoed. It might take a few moments before the card moves.',
         username: 'Prof. Farnsworth',
         icon_emoji: ':farnsworth:'
       }
