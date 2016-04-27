@@ -1,11 +1,9 @@
 var outlook = require('node-outlook')
   , authHelper = require('./authHelper')
-  , Slack = require('node-slack')
   , credentials = require('./credentials')
   , outlook_refresh = require('outlook-refresh')
   , moment = require('moment-timezone')
 
-var slack = new Slack(credentials.webhookUri);
 var savedToken;
 var savedEmail;
 var refreshToken;
@@ -30,7 +28,7 @@ var refresh = function(){
       console.log('refresh triggered')
     }
   }); 
-  setTimeout(refresh, 180000); // 1000 = 1 sec, currently 30 mins
+  setTimeout(refresh, 1800000); // 1000 = 1 sec, currently 30 mins
 };
 
 var tokenReceived = function(res, error, token) {
@@ -40,13 +38,17 @@ var tokenReceived = function(res, error, token) {
       else {
         savedToken = token.token.access_token;
         savedEmail = authHelper.getEmailFromIdToken(token.token.id_token);
-        refreshToken = token.token.refresh_token;
-        console.log(token);
+        refreshToken = token.token.refresh_token;;;
+        // console.log(token);
+        console.log('This is the token: '+savedToken);
+        console.log('This is the email: '+savedEmail);
+        console.log('This is the refresh tokebn: '+refreshToken);
+        console.log("We've auth'ed!");
         // Use below for stage/prod
-        res.redirect(302, 'https://data.lohud.com/bots/trellobot/');
+        // res.redirect(302, 'https://data.lohud.com/bots/trellobot/');
         // Use below for dev
         // res.redirect(302, 'http://localhost:8080/');
-        res.end();
+        // res.end();
       }
 };
 
@@ -60,57 +62,75 @@ var getValueFromCookie = function(valueName, cookie) {
 };
 
 var checkMail = function(req, res) {
-
+  
   // Use below for stage/prod
   var date = moment().tz("America/Los_Angeles").format();
 
   // Use below for dev
   // var date = moment().tz("America/New_York").format();
 
-  t = new Date();
+  console.log('Checking mail now');
+  console.log('Initial savedTime check: '+savedTime);
+  console.log('Initial date check: '+date);
+
+  console.log('Now we check for savedToken');
+
+  console.log(savedToken);
+
+  console.log('Now we check for savedEmail');
+
+  console.log(savedEmail);
+
+  // t = new Date();
 
   if (savedToken) {
     var queryParams = {
-      '$filter':"ReceivedDateTime ge "+savedTime+" and From/EmailAddress/Address eq 'noreply.ap@notification.ap.org'",
+      // '$filter':"ReceivedDateTime ge "+savedTime+" and From/EmailAddress/Address eq 'noreply.ap@notification.ap.org'",
+      '$filter':"ReceivedDateTime ge "+savedTime,
       '$select': 'Subject,ReceivedDateTime,From',
-      '$orderby': 'ReceivedDateTime desc',
-      // '$top': 10
+      // '$orderby': 'ReceivedDateTime desc',
+      '$top': 10,
       // '$search': '"from:noreply.ap@notification.ap.org"'
     };
     
+    console.log('this is the queryParams');
+
+    console.log(queryParams);
+
     // Set the API endpoint to use the v2.0 endpoint
     outlook.base.setApiEndpoint('https://outlook.office.com/api/v2.0');
     // Set the anchor mailbox to the user's SMTP address
     // Throwing errors for some reason
-    // outlook.base.setAnchorMailbox(savedEmail);
-    
+    outlook.base.setAnchorMailbox(savedEmail);
+
     outlook.mail.getMessages({token: savedToken, odataParams: queryParams},
       function(error, result){
+
+        console.log(result);
+
         if (error) {
           console.log('getMessages returned an error: ' + error);
         } else if (result) {
+          console.log(result);
           var inbox = result['value'];
           console.log(inbox);
-          for (var x = 0; x < inbox.length; x++) {
-            slack.send({
-                  // username: 'Skepti-Kai',
-                  // text: "`Kaitest:` *"+inbox[x]['Subject']+'*',
-                  // icon_emoji: ':notsureif:',
-                  username: 'Associated Press',
-                  text: "`AP NOTIFICATION:` *"+inbox[x]['Subject']+'*',
-                  icon_emoji: ':Deathstar:',
-                  channel: '#trellotest',
-            });
-          }
+          // for (var x = 0; x < inbox.length; x++) {
+          //   credentials.slack.send({
+          //         username: 'Associated Press',
+          //         text: "`AP NOTIFICATION:` *"+inbox[x]['Subject']+'*',
+          //         icon_emoji: ':Deathstar:',
+          //         channel: '#trellotest',
+          //   });
+          // }
         }
       });
   }
   else {
-    console.log(t, 'mailer.js broke!');
+    console.log(date, 'mailer.js broke!');
     alertCounter ++;
     if (alertCounter == 30){
       alertCounter = 0;
-      slack.send({
+      credentials.slack.send({
         username: 'OutlookBot',
         text: "Our outlook authentication is dead! Please re-login at `http://data.lohud.com/bots/trellobot` with our digital@gannett.com account!",
         icon_emoji: ':calculon',
@@ -120,7 +140,7 @@ var checkMail = function(req, res) {
   }
   // setTimeout(checkMail, 100000); // 10 secs
   setTimeout(checkMail, 10000);
-  console.log(t, 'mail pinged');
+  console.log(date, 'mail pinged');
   console.log(date);
   console.log(savedTime);
   savedTime = date;

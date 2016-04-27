@@ -5,7 +5,6 @@ var express = require('express')
   , logger = require('morgan')
   , app = express()
   , port = process.env.PORT || 8080
-  , Slack = require('node-slack')
   , url = require('url')
   , http = require('http')
   , bodyParser = require('body-parser')
@@ -34,8 +33,6 @@ gulp.task('sass', function(){
 gulp.task('default', ['sass'], function(){
   gulp.watch(['scss/**/*.scss'], ['sass']);
 });
-
-var slack = new Slack(credentials.webhookUri);
 
 trello.grab();
 mailer.refresh();
@@ -71,7 +68,7 @@ app.get('/authorize', function (req, res){
 app.post('/post',function(req,res){
 
   // Grab the message and user
-  // var allResponse = slack.respond(req.body, function(hook){
+  // var allResponse = credentials.slack.respond(req.body, function(hook){
   //   return rawmessage = hook.text,
   //          user = hook.user_name
   // });
@@ -91,19 +88,18 @@ app.post('/post',function(req,res){
     var destination = command[2];
 
     var reply =  {
-          text: 'This is a move command to move assetId `' + assetId + '` to destination `' + destination +'`',
-          username: 'Zap Brannigan',
-          icon_emoji: ':brannigan:',
+          text: 'We are now moving assetId `' + assetId + '` to destination `' + destination +'`. Please be patient, sometimes our courier hits cybertraffic.',
+          username: 'Kif Kroker',
+          icon_emoji: ':kif:',
       };
     trello.move(assetId, destination);
 
   } else if (typeofCommand == 'list'){
     var assets = trello.list();
-    console.log(assets);
-    var assetNames;
+    console.log('gulpfile 99: ' + assets);
 
     for (var i = 0; i < assets.length; i++){
-      slack.send({
+      credentials.slack.send({
           text: "`"+assets[i]+'` is ready',
           channel: channel,
           username: 'Zoidberg',
@@ -155,6 +151,7 @@ app.post('/post',function(req,res){
   }
 
   res.json(reply);
+  res.end();
 
 
 });

@@ -3,3 +3,4 @@ credentials.js
 /node_modules
 /etc
 /logs
+crontab

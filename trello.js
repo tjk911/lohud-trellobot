@@ -1,10 +1,6 @@
 var Trello = require('node-trello')
   , credentials = require('./credentials')
   , t = new Trello(credentials.t1, credentials.t2)
-  , Slack = require('node-slack')
-
-
-var slack = new Slack(credentials.webhookUri);
 
 var currentLength = 0;
 var currentAssets = [];
@@ -48,7 +44,7 @@ var grab = function() {
             } else {
               // console.log('does not exist, so we are pushing and announcing')
               currentAssets.push(data[i]['name']);
-              slack.send({
+              credentials.slack.send({
                   text: "`"+data[i]['name']+'` is ready',
                   channel: '#trellotest',
                   username: 'Zoidberg',
@@ -68,7 +64,7 @@ var grab = function() {
             // console.log(currentAssets[x]+' is still here')
           } else {
             // console.log(currentAssets[x]+' is now gone')
-            slack.send({
+            credentials.slack.send({
                 text: "`"+currentAssets[x]+'` has been posted',
                 channel: '#trellotest',
                 username: 'Zoidberg',
@@ -89,6 +85,9 @@ var grab = function() {
 };
 
 var move = function (assetId, destination) {
+
+  console.log('Trello.js has received the move command');
+
   t.get("/1/lists/559ea8976fe031f2e5147baa/cards", {
 
   }, function (err, data) {
@@ -124,11 +123,16 @@ var move = function (assetId, destination) {
       }
     }
   })
+
+  console.log('Trello.js has fired off the move command');
     
 };
 
 
 var list = function () {
+  console.log('Trello.js has received the list command');
+  console.log(currentAssets);
+  console.log('Trello.js has fired off the list to gulpfile.js');
   return currentAssets;
 };
 
