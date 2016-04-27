@@ -134,7 +134,8 @@ var checkMail = function(req, res) {
         username: 'OutlookBot',
         text: "Our outlook authentication is dead! Please re-login at `http://data.lohud.com/bots/trellobot` with our digital@gannett.com account!",
         icon_emoji: ':calculon',
-        channel: '#trellotest',
+        channel: '#audience',
+        // channel: '#trellotest',
       })
     };
   }

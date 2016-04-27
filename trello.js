@@ -46,7 +46,8 @@ var grab = function() {
               currentAssets.push(data[i]['name']);
               credentials.slack.send({
                   text: "`"+data[i]['name']+'` is ready',
-                  channel: '#trellotest',
+                  channel: '#audience',
+                  // channel: '#trellotest',
                   username: 'Zoidberg',
                   icon_emoji: ':Zoidberg:',
               });
@@ -66,7 +67,8 @@ var grab = function() {
             // console.log(currentAssets[x]+' is now gone')
             credentials.slack.send({
                 text: "`"+currentAssets[x]+'` has been posted',
-                channel: '#trellotest',
+                channel: '#audience',
+                // channel: '#trellotest',
                 username: 'Zoidberg',
                 icon_emoji: ':Zoidberg:',
             }, function(err, response){
