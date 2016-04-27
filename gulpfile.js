@@ -35,8 +35,8 @@ gulp.task('default', ['sass'], function(){
 });
 
 trello.grab();
-mailer.refresh();
-mailer.checkMail();
+// mailer.refresh();
+// mailer.checkMail();
 
 app.use(logger('dev'))
 app.use(express.static(__dirname + '/static'))
