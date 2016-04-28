@@ -66,7 +66,7 @@ var grab = function(){
           } else {
             // console.log(currentAssets[x]+' is now gone')
             credentials.slack.send({
-                text: "`"+currentAssets[x]+'` has been posted or embargoed',
+                text: "`"+currentAssets[x]+'` has been moved out of ready',
                 channel: '#audience',
                 // channel: '#trellotest',
                 username: 'Zoidberg',
@@ -202,7 +202,6 @@ var move = function (assetId, destination, channel){
   });
   
 
-
   console.log('Trello.js has fired off the move command');
     
 };
@@ -228,8 +227,8 @@ var list = function (listname, channel){
           credentials.slack.send({
               text: 'There is nothing in this list',
               channel: channel,
-              username: 'Zoidberg',
-              icon_emoji: ':Zoidberg:',
+              username: 'Calculon',
+              icon_emoji: ':Calculon:',
           });
         } else {
         // Loop through the list
@@ -239,8 +238,8 @@ var list = function (listname, channel){
               credentials.slack.send({
                   text: "`"+data[i]['name']+'` is ready',
                   channel: channel,
-                  username: 'Zoidberg',
-                  icon_emoji: ':Zoidberg:',
+                  username: 'Calculon',
+                  icon_emoji: ':Calculon:',
               });          
             } 
           }          
@@ -265,17 +264,17 @@ var list = function (listname, channel){
           credentials.slack.send({
               text: 'There is nothing in this list',
               channel: channel,
-              username: 'Zoidberg',
-              icon_emoji: ':Zoidberg:',
+              username: 'Calculon',
+              icon_emoji: ':Calculon:',
           });
         } else {
           for (var i = 0; i < data.length; i++){
             // Check if list is push-worthy
             credentials.slack.send({
-                text: "`"+data[i]['name']+'` is embargoed',
+                text: "`"+data[i]['name']+'` has been embargoed',
                 channel: channel,
-                username: 'Zoidberg',
-                icon_emoji: ':Zoidberg:',
+                username: 'Calculon',
+                icon_emoji: ':Calculon:',
             });        
           }
         }
@@ -299,29 +298,35 @@ var list = function (listname, channel){
           credentials.slack.send({
               text: 'There is nothing in this list',
               channel: channel,
-              username: 'Zoidberg',
-              icon_emoji: ':Zoidberg:',
+              username: 'Calculon',
+              icon_emoji: ':Calculon:',
           });
         } else {
           for (var i = 0; i < data.length; i++){
             // Check if list is push-worthy
             credentials.slack.send({
-                text: "`"+data[i]['name']+'` is published',
+                text: "`"+data[i]['name']+'` has been published',
                 channel: channel,
-                username: 'Zoidberg',
-                icon_emoji: ':Zoidberg:',
+                username: 'Calculon',
+                icon_emoji: ':Calculon:',
             });
           }
         }
         // End loop through the list
       }
     );
+  } else if (listname == undefined) {
+    credentials.slack.send({
+        text: "Sorry, you need to specify which list. Use `trellobot help list` to learn how to use this command.",
+        channel: channel,
+        username: 'Prof. Farnsworth',
+        icon_emoji: ':farnsworth:',
+    });
   }
-
 
   console.log('Trello.js has fired off the list to Slack');
   // return listAssets;
-
+  res.end();
 };
 
 

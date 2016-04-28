@@ -35,8 +35,8 @@ gulp.task('default', ['sass'], function(){
 });
 
 trello.grab();
-mailer.refresh();
-mailer.checkMail();
+// mailer.refresh();
+// mailer.checkMail();
 
 app.use(logger('dev'))
 app.use(express.static(__dirname + '/static'))
@@ -46,24 +46,24 @@ app.use(bodyParser.urlencoded({ extended: true }));
 // Tell app to use jade
 app.set('view engine', 'jade');
 
-app.get('/', function (req, res, next){
-  try {
-    res.render('homepage', {
-      title : 'Trellobot | lohud.com',
-      auth: authHelper.getAuthUrl()
-    });
-  } catch (e){
-    next(e)
-  }
-})
+// app.get('/', function (req, res, next){
+//   try {
+//     res.render('homepage', {
+//       title : 'Trellobot | lohud.com',
+//       auth: authHelper.getAuthUrl()
+//     });
+//   } catch (e){
+//     next(e)
+//   }
+// })
 
-app.get('/authorize', function (req, res){
-  var url_parts = url.parse(req.url, true);
-  var code = url_parts.query.code;
-  var token = authHelper.getTokenFromCode(code, mailer.tokenReceived, res);
-  // console.log("Code: " + code);
-  // console.log("Request handler 'authorize' was called.");
-})
+// app.get('/authorize', function (req, res){
+//   var url_parts = url.parse(req.url, true);
+//   var code = url_parts.query.code;
+//   var token = authHelper.getTokenFromCode(code, mailer.tokenReceived, res);
+//   // console.log("Code: " + code);
+//   // console.log("Request handler 'authorize' was called.");
+// })
 
 app.post('/post',function(req,res){
 
@@ -148,8 +148,6 @@ app.post('/post',function(req,res){
   }
 
   res.json(reply);
-  res.end();
-
 
 });
 
