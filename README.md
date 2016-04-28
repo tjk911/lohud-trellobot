@@ -45,3 +45,5 @@ Not all the installed dependencies are currently required/used. I know this is b
 ##What Kai needs to do next
 
 The gulpfile needs to be cleaned up and refactored. Trello dies occasionally and gets reset, which means we lose our Outlook authentication, that needs to be worked on or figured out. I have yet to figure out why I get a 403 error on Trello randomly.
+
+Outlook is currently disabled, as our server's IP was probably blocked when the bot malfunctioned during a test run. Trello.js has to go through serious refactoring and optimization. The callbacks and promises between gulpfile and trello has to be worked on properly as well.
