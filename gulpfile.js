@@ -152,5 +152,5 @@ app.post('/post',function(req,res){
 });
 
 // LISTEN!
-// app.listen(port, "localhost")
-app.listen(process.env.PORT || 8080);
+app.listen(port, "localhost")
+// app.listen(process.env.PORT || 8080);
