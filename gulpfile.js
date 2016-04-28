@@ -109,13 +109,13 @@ app.post('/post',function(req,res){
 
     if (typeofHelp == undefined){
       var reply = {
-        text: 'Good news everyone! Type `trellobot (or /bot) help commandlist` to view a list of commands, or type `trellobot (or /bot) help *name of command*` to learn how the commands work',
+        text: 'Good news everyone! Type `trellobot help commandlist` to view a list of commands',
         username: 'Prof. Farnsworth',
         icon_emoji: ':farnsworth:'
       }
     } else if (typeofHelp == 'commandlist'){
       var reply = {
-        text: 'We currently have three commands! They are `trellobot list`, `trellobot move` and `trellobot help`',
+        text: 'We currently have three commands! They are `trellobot list`, `trellobot move` and `trellobot help`. Learn how to use them by typing `trellobot help *name of command*`.',
         username: 'Prof. Farnsworth',
         icon_emoji: ':farnsworth:'
       }
