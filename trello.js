@@ -66,7 +66,7 @@ var grab = function() {
           } else {
             // console.log(currentAssets[x]+' is now gone')
             credentials.slack.send({
-                text: "`"+currentAssets[x]+'` has been posted',
+                text: "`"+currentAssets[x]+'` has been posted or embargoed',
                 channel: '#audience',
                 // channel: '#trellotest',
                 username: 'Zoidberg',
@@ -86,16 +86,17 @@ var grab = function() {
   setTimeout(grab, 5000);
 };
 
-var move = function (assetId, destination) {
+var move = function (assetId, destination, channel) {
 
   console.log('Trello.js has received the move command');
 
-  t.get("/1/lists/559ea8976fe031f2e5147baa/cards", {
+  t.get("/1/lists/559ea8976fe031f2e5147baa/cards", { // loop through ready
 
   }, function (err, data) {
     if (err) {
       console.log(err);
     } else {
+      console.log('first block');
       for (var i = 0; i < data.length; i++) {
         var cardName = data[i]['name'].split(" ");
         var cardId = cardName[0];
@@ -124,18 +125,203 @@ var move = function (assetId, destination) {
         }
       }
     }
-  })
+  });
+
+  t.get("/1/lists/56af9e1a8f6e960993eb24ac/cards", { // loop through done
+
+  }, function (err, data) {
+    if (err) {
+      console.log(err);
+    } else {
+      console.log('second block');
+      for (var i = 0; i < data.length; i++) {
+        var cardName = data[i]['name'].split(" ");
+        var cardId = cardName[0];
+
+        if (assetId == cardId) {
+          console.log(data[i]['id']);
+          console.log('this is the assetId: ' + cardId);
+
+          if (destination == 'ready' || destination == 'Ready') {
+            t.put("/1/cards/"+data[i]['id'],{
+              idList: '559ea8976fe031f2e5147baa'
+            }, function (err){
+              if (err) {
+                console.log(err);
+              }
+            })
+          } else if (destination == 'embargoed' || destination == 'Embargoed' || destination == 'Embargo' || destination == 'embargo') {
+            t.put("/1/cards/"+data[i]['id'],{
+              idList: '55b13a806c042819824c029f'
+            }, function (err){
+              if (err) {
+                console.log(err);
+              }
+            })
+          }
+        }
+      }
+    }
+  });
+
+  t.get("/1/lists/55b13a806c042819824c029f/cards", { // loop through embargoed
+
+  }, function (err, data) {
+    if (err) {
+      console.log(err);
+    } else {
+      console.log('third block');
+      for (var i = 0; i < data.length; i++) {
+        var cardName = data[i]['name'].split(" ");
+        var cardId = cardName[0];
+
+        if (assetId == cardId) {
+          console.log(data[i]['id']);
+          console.log('this is the assetId: ' + cardId);
+
+          if (destination == 'done' || destination == 'Done') {
+            t.put("/1/cards/"+data[i]['id'],{
+              idList: '56af9e1a8f6e960993eb24ac'
+            }, function (err){
+              if (err) {
+                console.log(err);
+              }
+            })
+          } else if (destination == 'ready' || destination == 'Ready') {
+            t.put("/1/cards/"+data[i]['id'],{
+              idList: '559ea8976fe031f2e5147baa'
+            }, function (err){
+              if (err) {
+                console.log(err);
+              }
+            })
+          }
+        } 
+      }
+    }
+  });
+  
+
 
   console.log('Trello.js has fired off the move command');
     
 };
 
 
-var list = function () {
+var list = function (listname, channel) {
   console.log('Trello.js has received the list command');
-  console.log(currentAssets);
-  console.log('Trello.js has fired off the list to gulpfile.js');
-  return currentAssets;
+  // console.log(currentAssets);
+  console.log(listname);
+  console.log(channel);
+  if (listname == 'ready') {
+    t.get(
+      "/1/lists/559ea8976fe031f2e5147baa/cards", { 
+        // filter: "open", 
+        // limit: "1" 
+      }, 
+      function(err, data) {
+        // if (err) throw err;
+        if (err) {
+          console.log(err);
+        }
+        // Loop through the list
+        for (var i = 0; i < data.length; i++){
+          // Check if list is push-worthy
+          if (data.length == 0){
+            credentials.slack.send({
+                text: 'There is nothing in this list',
+                channel: channel,
+                username: 'Zoidberg',
+                icon_emoji: ':Zoidberg:',
+            });
+          } else {
+            if (i > 0) {
+              credentials.slack.send({
+                  text: "`"+data[i]['name']+'` is ready',
+                  channel: channel,
+                  username: 'Zoidberg',
+                  icon_emoji: ':Zoidberg:',
+              });          
+            } 
+          }          
+        }
+        // End loop through the list
+      }
+    );
+  } else if (listname == 'embargoed') {
+    t.get(
+      "/1/lists/55b13a806c042819824c029f/cards", { 
+        // filter: "open", 
+        // limit: "1" 
+      }, 
+      function(err, data) {
+        // if (err) throw err;
+        if (err) {
+          console.log(err);
+        }
+        // Loop through the list
+
+        if (data.length == 0) {
+          credentials.slack.send({
+              text: 'There is nothing in this list',
+              channel: channel,
+              username: 'Zoidberg',
+              icon_emoji: ':Zoidberg:',
+          });
+        } else {
+          for (var i = 0; i < data.length; i++){
+            // Check if list is push-worthy
+            credentials.slack.send({
+                text: "`"+data[i]['name']+'` is embargoed',
+                channel: channel,
+                username: 'Zoidberg',
+                icon_emoji: ':Zoidberg:',
+            });        
+          }
+        }
+        // End loop through the list
+      }
+    );
+  } else if (listname == 'done') {
+    t.get(
+      "/1/lists/56af9e1a8f6e960993eb24ac/cards", { 
+        // filter: "open", 
+        // limit: "1" 
+      }, 
+      function(err, data) {
+        // if (err) throw err;
+        if (err) {
+          console.log(err);
+        }
+        // Loop through the list
+
+        if (data.length == 0) {
+          credentials.slack.send({
+              text: 'There is nothing in this list',
+              channel: channel,
+              username: 'Zoidberg',
+              icon_emoji: ':Zoidberg:',
+          });
+        } else {
+          for (var i = 0; i < data.length; i++){
+            // Check if list is push-worthy
+            credentials.slack.send({
+                text: "`"+data[i]['name']+'` is published',
+                channel: channel,
+                username: 'Zoidberg',
+                icon_emoji: ':Zoidberg:',
+            });
+          }
+        }
+        // End loop through the list
+      }
+    );
+  }
+
+
+  console.log('Trello.js has fired off the list to Slack');
+  // return listAssets;
+
 };
 
 

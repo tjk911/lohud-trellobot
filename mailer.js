@@ -85,8 +85,8 @@ var checkMail = function(req, res) {
 
   if (savedToken) {
     var queryParams = {
-      // '$filter':"ReceivedDateTime ge "+savedTime+" and From/EmailAddress/Address eq 'noreply.ap@notification.ap.org'",
-      '$filter':"ReceivedDateTime ge "+savedTime,
+      '$filter':"ReceivedDateTime ge "+savedTime+" and From/EmailAddress/Address eq 'noreply.ap@notification.ap.org'",
+      // '$filter':"ReceivedDateTime ge "+savedTime,
       '$select': 'Subject,ReceivedDateTime,From',
       // '$orderby': 'ReceivedDateTime desc',
       '$top': 10,
@@ -114,14 +114,15 @@ var checkMail = function(req, res) {
           console.log(result);
           var inbox = result['value'];
           console.log(inbox);
-          // for (var x = 0; x < inbox.length; x++) {
-          //   credentials.slack.send({
-          //         username: 'Associated Press',
-          //         text: "`AP NOTIFICATION:` *"+inbox[x]['Subject']+'*',
-          //         icon_emoji: ':Deathstar:',
-          //         channel: '#trellotest',
-          //   });
-          // }
+          for (var x = 0; x < inbox.length; x++) {
+            credentials.slack.send({
+                  username: 'Associated Press',
+                  text: "`AP NOTIFICATION:` *"+inbox[x]['Subject']+'*',
+                  icon_emoji: ':Deathstar:',
+                  // channel: '#trellotest',
+                  channel: '#audience',
+            });
+          }
         }
       });
   }

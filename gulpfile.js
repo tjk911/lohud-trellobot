@@ -35,8 +35,8 @@ gulp.task('default', ['sass'], function(){
 });
 
 trello.grab();
-// mailer.refresh();
-// mailer.checkMail();
+mailer.refresh();
+mailer.checkMail();
 
 app.use(logger('dev'))
 app.use(express.static(__dirname + '/static'))
@@ -92,20 +92,17 @@ app.post('/post',function(req,res){
           username: 'Kif Kroker',
           icon_emoji: ':kif:',
       };
-    trello.move(assetId, destination);
+    trello.move(assetId, destination, channel);
 
   } else if (typeofCommand == 'list'){
-    var assets = trello.list();
-    console.log('gulpfile 99: ' + assets);
+    var listname = command[1];
+    console.log(listname);
+    console.log(channel);
 
-    for (var i = 0; i < assets.length; i++){
-      credentials.slack.send({
-          text: "`"+assets[i]+'` is ready',
-          channel: channel,
-          username: 'Zoidberg',
-          icon_emoji: ':Zoidberg:',
-      });
-    }
+    trello.list(listname, channel)
+
+    // var assets = trello.list();
+    // console.log('gulpfile 99: ' + assets);
 
   } else if (typeofCommand == 'help'){
     var typeofHelp = command[1];
@@ -118,13 +115,13 @@ app.post('/post',function(req,res){
       }
     } else if (typeofHelp == 'commandlist'){
       var reply = {
-        text: 'We currently have three commands! They are `list`, `move` and `help`',
+        text: 'We currently have three commands! They are `trellobot list`, `trellobot move` and `trellobot help`',
         username: 'Prof. Farnsworth',
         icon_emoji: ':farnsworth:'
       }
     } else if (typeofHelp == 'list'){
       var reply = {
-        text: 'Use `list` to view all stories available/ready for posting',
+        text: 'Use `trellobot list ready` to view all stories available/ready for posting. Use `trellobot list done` to view all posted stories. Use `trellobot list embargoed` to view all embargoed stories.',
         username: 'Prof. Farnsworth',
         icon_emoji: ':farnsworth:'
       }
@@ -144,7 +141,7 @@ app.post('/post',function(req,res){
   } else {
     var reply =  {
             // text: 'text = ' + message,
-            text: "I just finished turbo-charging this bot's matter compressor! Type `help` to get started!",
+            text: "I just finished turbo-charging this bot's matter compressor! Type `trellobot help` to get started!",
             username: 'Prof. Farnsworth',
             icon_emoji: ':farnsworth:'
         };
