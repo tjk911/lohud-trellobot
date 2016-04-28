@@ -129,16 +129,16 @@ var checkMail = function(req, res) {
   else {
     console.log(date, 'mailer.js broke!');
     alertCounter ++;
-    if (alertCounter == 30){
-      alertCounter = 0;
-      credentials.slack.send({
-        username: 'OutlookBot',
-        text: "Our outlook authentication is dead! Please re-login at `http://data.lohud.com/bots/trellobot` with our digital@gannett.com account!",
-        icon_emoji: ':calculon',
-        channel: '#audience',
-        // channel: '#trellotest',
-      })
-    };
+    // if (alertCounter == 30){
+    //   alertCounter = 0;
+    //   credentials.slack.send({
+    //     username: 'OutlookBot',
+    //     text: "Our outlook authentication is dead! Please re-login at `http://data.lohud.com/bots/trellobot` with our digital@gannett.com account!",
+    //     icon_emoji: ':calculon',
+    //     channel: '#audience',
+    //     // channel: '#trellotest',
+    //   })
+    // };
   }
   // setTimeout(checkMail, 100000); // 10 secs
   setTimeout(checkMail, 10000);
