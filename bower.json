@@ -1,13 +1,13 @@
 {
-  "name": "foundation-sites-template",
+  "name": "lohud-trellobot",
   "version": "1.0.0",
   "authors": [
-    "ZURB <foundation@zurb.com>"
+    "Kai Teoh @jkteoh"
   ],
-  "description": "Basic template for a new Foundation for Sites project.",
+  "description": "Basic bot for Slack that manipulates Trello & Outlook",
   "main": "index.html",
   "license": "MIT",
-  "homepage": "http://foundation.zurb.com",
+  "homepage": "http://lohud.com",
   "dependencies": {
     "foundation-sites": "~6.1.2",
     "motion-ui": "~1.1.0",
