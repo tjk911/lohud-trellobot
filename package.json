@@ -1,7 +1,7 @@
 {
-  "name": "trello-bot",
+  "name": "lohud-trellobot",
   "version": "1.0.0",
-  "description": "Trello bot for lohud labs",
+  "description": "Basic bot for Slack that manipulates Trello & Outlook",
   "main": "gulpfile.js",
   "devDependencies": {
     "gulp": "^3.9.0",
