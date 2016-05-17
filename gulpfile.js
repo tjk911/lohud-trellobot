@@ -46,16 +46,16 @@ app.use(bodyParser.urlencoded({ extended: true }));
 // Tell app to use jade
 app.set('view engine', 'jade');
 
-app.get('/', function (req, res, next){
-  try {
-    res.render('homepage', {
-      title : 'Trellobot | lohud.com',
-      auth: authHelper.getAuthUrl()
-    });
-  } catch (e){
-    next(e)
-  }
-})
+// app.get('/', function (req, res, next){
+//   try {
+//     res.render('homepage', {
+//       title : 'Trellobot | lohud.com',
+//       auth: authHelper.getAuthUrl()
+//     });
+//   } catch (e){
+//     next(e)
+//   }
+// })
 
 // app.get('/authorize', function (req, res){
 //   var url_parts = url.parse(req.url, true);
@@ -153,4 +153,4 @@ app.post('/post',function(req,res){
 
 // LISTEN!
 app.listen(port, "localhost")
-// app.listen(process.env.PORT || 8080);
+
