@@ -45,7 +45,8 @@ var tokenReceived = function(res, error, token) {
         console.log('This is the refresh tokebn: '+refreshToken);
         console.log("We've auth'ed!");
         // Use below for stage/prod
-        res.redirect(302, 'https://data.lohud.com/bots/trellobot/');
+        // res.redirect(302, 'https://data.lohud.com/bots/trellobot/');
+        res.redirect(302, 'https://trellobot.lohudblogs.com/');
         // Use below for dev
         // res.redirect(302, 'http://localhost:8080/');
         // res.end();
@@ -129,16 +130,16 @@ var checkMail = function(req, res) {
   else {
     console.log(date, 'mailer.js broke!');
     alertCounter ++;
-    // if (alertCounter == 30){
-    //   alertCounter = 0;
-    //   credentials.slack.send({
-    //     username: 'OutlookBot',
-    //     text: "Our outlook authentication is dead! Please re-login at `http://data.lohud.com/bots/trellobot` with our digital@gannett.com account!",
-    //     icon_emoji: ':calculon',
-    //     channel: '#audience',
-    //     // channel: '#trellotest',
-    //   })
-    // };
+    if (alertCounter == 30){
+      alertCounter = 0;
+      credentials.slack.send({
+        username: 'OutlookBot',
+        text: "Our outlook authentication is dead! Please re-login at `http://trellobot.lohudblogs.com` with our digital@gannett.com account!",
+        icon_emoji: ':calculon',
+        channel: '#audience',
+        // channel: '#trellotest',
+      })
+    };
   }
   // setTimeout(checkMail, 100000); // 10 secs
   setTimeout(checkMail, 10000);

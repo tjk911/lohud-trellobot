@@ -1,7 +1,8 @@
 var credentials = require('./credentials')
 var oauth2 = require('simple-oauth2')(credentials.oauthcred);
 // var redirectUri = "https://data.lohud.com/bots/trellobot/authorize";
-var redirectUri = "http://localhost:8080/authorize";
+// var redirectUri = "http://localhost:8080/authorize";
+var redirectUri = "https://trellobot.lohudblogs.com/authorize";
 
 
 //  The Scopes the app requires

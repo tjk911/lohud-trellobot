@@ -326,7 +326,7 @@ var list = function (listname, channel){
 
   console.log('Trello.js has fired off the list to Slack');
   // return listAssets;
-  res.end();
+  // res.end();
 };
 
 

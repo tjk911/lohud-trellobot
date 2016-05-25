@@ -36,6 +36,7 @@
     "node-slack": "0.0.7",
     "node-trello": "^1.1.2",
     "outlook-refresh": "^1.0.0",
-    "simple-oauth2": "^0.5.1"
+    "simple-oauth2": "^0.5.1",
+    "pug": "~2.0.0-alpha8"
   }
 }
