@@ -12,13 +12,13 @@ var currentAssets = [];
 // Done list id: 56af9e1a8f6e960993eb24ac
 // Posted, needs finessing: 559ea8807d35a7f8ec25edc4
 
-var grab = function(){
+var grab = function (){
   t.get(
     "/1/lists/559ea8976fe031f2e5147baa/cards", { 
       // filter: "open", 
       // limit: "1" 
     }, 
-    function(err, data){
+    function (err, data){
       // if (err) throw err;
       if (err){
         console.log(err);
@@ -27,64 +27,69 @@ var grab = function(){
       if (currentLength == data.length){
         // console.log("Don't do anything");
       } else {
-        
-        // Update the base length
-        currentLength = data.length;
-        var newAssets = [];
-
-        // Loop through the list
-        for (var i = 0; i < data.length; i++){
-          // Check if list is push-worthy
-          if (i > 0){
-            newAssets.push(data[i]['name']);
-
-            // Check if it exists in assets
-            if (currentAssets.indexOf(data[i]['name']) > -1){
-              // console.log('found it')
-            } else {
-              // console.log('does not exist, so we are pushing and announcing')
-              currentAssets.push(data[i]['name']);
-              credentials.slack.send({
-                  text: "`"+data[i]['name']+'` is ready',
-                  channel: '#audience',
-                  // channel: '#trellotest',
-                  username: 'Zoidberg',
-                  icon_emoji: ':Zoidberg:',
-              });
-            }
-          }
-        }
-        // End loop through the list
-
-        // Loop through the asset
-        for (var x = 0; x < currentAssets.length; x++){
-          var assetpos = newAssets.indexOf(currentAssets[x]);
-
-          // check if assets exist in data
-          if (newAssets.indexOf(currentAssets[x]) > -1){
-            // console.log(currentAssets[x]+' is still here')
-          } else {
-            // console.log(currentAssets[x]+' is now gone')
-            credentials.slack.send({
-                text: "`"+currentAssets[x]+'` has been moved out of ready',
-                channel: '#audience',
-                // channel: '#trellotest',
-                username: 'Zoidberg',
-                icon_emoji: ':Zoidberg:',
-            }, function(err, response){
-              console.log(err);
-              currentAssets = newAssets;
-            });
-          }
-        }
-        // end loop through the asset
+        // console.log(data);
+        receiveData(data);
       }
       
     }
   );
   // set refresh frequency
-  setTimeout(grab, 5000);
 };
+
+var receiveData = function (data) {
+  // console.log(data);
+  console.log('just received trello data');
+  currentLength = data.length;
+  var newAssets = [];
+
+  // Loop through the list
+  for (var i = 0; i < data.length; i++){
+    // Check if list is push-worthy
+    if (i > 0){
+      newAssets.push(data[i]['name']);
+
+      // Check if it exists in assets
+      if (currentAssets.indexOf(data[i]['name']) > -1){
+        // console.log('found it')
+      } else {
+        // console.log('does not exist, so we are pushing and announcing')
+        currentAssets.push(data[i]['name']);
+        credentials.slack.send({
+            text: "`"+data[i]['name']+'` is ready',
+            channel: '#audience',
+            // channel: '#trellotest',
+            username: 'Zoidberg',
+            icon_emoji: ':Zoidberg:',
+        });
+      }
+    }
+  }
+  // End loop through the list
+
+  // Loop through the asset
+  for (var x = 0; x < currentAssets.length; x++){
+    var assetpos = newAssets.indexOf(currentAssets[x]);
+
+    // check if assets exist in data
+    if (newAssets.indexOf(currentAssets[x]) > -1){
+      // console.log(currentAssets[x]+' is still here')
+    } else {
+      // console.log(currentAssets[x]+' is now gone')
+      credentials.slack.send({
+          text: "`"+currentAssets[x]+'` has been moved out of ready',
+          channel: '#audience',
+          // channel: '#trellotest',
+          username: 'Zoidberg',
+          icon_emoji: ':Zoidberg:',
+      }, function(err, response){
+        console.log(err);
+        currentAssets = newAssets;
+      });
+    }
+  }
+  // end loop through the asset
+  setTimeout(grab, 5000);
+}
 
 var move = function (assetId, destination, channel){
 
@@ -217,7 +222,7 @@ var list = function (listname, channel){
         // filter: "open", 
         // limit: "1" 
       }, 
-      function(err, data){
+      function (err, data){
         // if (err) throw err;
         if (err){
           console.log(err);
@@ -252,14 +257,14 @@ var list = function (listname, channel){
         // filter: "open", 
         // limit: "1" 
       }, 
-      function(err, data){
+      function (err, data){
         // if (err) throw err;
         if (err){
           console.log(err);
         }
         // Loop through the list
 
-        if (data.length == 0){
+        if (data.length == 1){
           credentials.slack.send({
               text: 'There is nothing in this list',
               channel: channel,
@@ -269,12 +274,14 @@ var list = function (listname, channel){
         } else {
           for (var i = 0; i < data.length; i++){
             // Check if list is push-worthy
-            credentials.slack.send({
-                text: "`"+data[i]['name']+'` has been embargoed',
-                channel: channel,
-                username: 'Calculon',
-                icon_emoji: ':Calculon:',
-            });        
+            if (i > 0) {
+              credentials.slack.send({
+                  text: "`"+data[i]['name']+'` has been embargoed',
+                  channel: channel,
+                  username: 'Calculon',
+                  icon_emoji: ':Calculon:',
+              });   
+            }
           }
         }
         // End loop through the list
@@ -286,7 +293,7 @@ var list = function (listname, channel){
         // filter: "open", 
         // limit: "1" 
       }, 
-      function(err, data){
+      function (err, data){
         // if (err) throw err;
         if (err){
           console.log(err);
