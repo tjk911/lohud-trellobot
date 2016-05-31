@@ -74,7 +74,7 @@ app.post('/post',function(req,res){
   // });
 
   var response = req.body;
-  // console.log(response);
+  console.log(response);
 
   // Clean up the message
   message = response['text'].replace(response['trigger_word'] + ' ','');
@@ -153,4 +153,3 @@ app.post('/post',function(req,res){
 
 // LISTEN!
 app.listen(port, "localhost")
-

@@ -4,3 +4,4 @@ credentials.js
 /etc
 /logs
 crontab
+token.json

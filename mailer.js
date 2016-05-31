@@ -3,9 +3,10 @@ var outlook = require('node-outlook')
   , credentials = require('./credentials')
   , outlook_refresh = require('outlook-refresh')
   , moment = require('moment-timezone')
+  , fs = require("fs")
+  , savedRefresh = require('./token.json')
 
 var savedToken;
-var savedEmail;
 var refreshToken;
 var alertCounter = 0;
 
@@ -19,13 +20,50 @@ console.log('this is momenttime', momenttime);
 
 var savedTime = momenttime;
 
-var refresh = function(){
-  outlook_refresh(refreshToken, credentials.oauthcredID, credentials.oauthcredSecret, function (err, res){
-    if (err){
-      console.log('refresh error: ',err);
+// check what was saved
+console.log('this is the saved refresh token: ', savedRefresh);
+// console.log('this is the local email: ', localEmail);
+// var savedEmail = localEmail;
+
+
+var refresh = function() {
+  outlook_refresh(refreshToken, credentials.oauthcredID, credentials.oauthcredSecret, function (err, res) {
+    if (err) {
+      console.log('refresh error: ', err);
+      outlook_refresh(savedRefresh, credentials.oauthcredID, credentials.oauthcredSecret, function (err, res) {
+        if (err) {
+          console.log('still not refreshing: ', err);
+        } else {
+          savedToken = res.token;
+          console.log('using the savedRefresh token worked!');
+          console.log(res);
+          refreshToken = res.refreshToken;
+          console.log('this is the new refresh token');
+          var newJSON = JSON.stringify(refreshToken);
+          fs.writeFile('./token.json', newJSON, function (err) {
+            if(err) {
+                return handleError(err);
+            } else {
+              console.log('your json has been saved');
+              console.log(newJSON);
+            }
+          });
+        }
+      })
     } else {
       savedToken = res.token;
-      console.log('refresh triggered')
+      console.log('refresh triggered');
+      refreshToken = res.refreshToken;
+      console.log('this is the new refresh token');
+      var newJSON = JSON.stringify(refreshToken);
+      fs.writeFile('./token.json', newJSON, function (err) {
+        if(err) {
+            return handleError(err);
+        } else {
+          console.log('your json has been saved');
+          console.log(newJSON);
+        }
+      });
     }
   }); 
   setTimeout(refresh, 1800000); // 1000 = 1 sec, currently 30 mins
@@ -37,13 +75,24 @@ var tokenReceived = function(res, error, token) {
       }
       else {
         savedToken = token.token.access_token;
-        savedEmail = authHelper.getEmailFromIdToken(token.token.id_token);
-        refreshToken = token.token.refresh_token;;;
+        // savedEmail = authHelper.getEmailFromIdToken(token.token.id_token);
+        refreshToken = token.token.refresh_token;
         // console.log(token);
         console.log('This is the token: '+savedToken);
-        console.log('This is the email: '+savedEmail);
-        console.log('This is the refresh tokebn: '+refreshToken);
+        console.log('This is the email: '+credentials.inbox);
+        console.log('This is the refresh token: '+refreshToken);
         console.log("We've auth'ed!");
+
+        var newJSON = JSON.stringify(refreshToken);
+        fs.writeFile('./token.json', newJSON, function (err) {
+          if(err) {
+              return handleError(err);
+          } else {
+            console.log('your json has been saved');
+            console.log(newJSON);
+          }
+        });
+
         // Use below for stage/prod
         // res.redirect(302, 'https://data.lohud.com/bots/trellobot/');
         res.redirect(302, 'https://trellobot.lohudblogs.com/');
@@ -73,14 +122,11 @@ var checkMail = function(req, res) {
   console.log('Checking mail now');
   console.log('Initial savedTime check: '+savedTime);
   console.log('Initial date check: '+date);
-
   console.log('Now we check for savedToken');
-
   console.log(savedToken);
 
-  console.log('Now we check for savedEmail');
-
-  console.log(savedEmail);
+  // console.log('Now we check for savedEmail');
+  // console.log(savedEmail);
 
   // t = new Date();
 
@@ -102,10 +148,10 @@ var checkMail = function(req, res) {
     outlook.base.setApiEndpoint('https://outlook.office.com/api/v2.0');
     // Set the anchor mailbox to the user's SMTP address
     // Throwing errors for some reason
-    outlook.base.setAnchorMailbox(savedEmail);
+    outlook.base.setAnchorMailbox(credentials.inbox);
 
     outlook.mail.getMessages({token: savedToken, odataParams: queryParams},
-      function(error, result){
+      function(error, result) {
 
         console.log(result);
 
@@ -130,7 +176,7 @@ var checkMail = function(req, res) {
   else {
     console.log(date, 'mailer.js broke!');
     alertCounter ++;
-    if (alertCounter == 30){
+    if (alertCounter == 30) {
       alertCounter = 0;
       credentials.slack.send({
         username: 'OutlookBot',
