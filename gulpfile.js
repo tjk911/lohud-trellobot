@@ -61,8 +61,8 @@ app.get('/authorize', function (req, res){
   var url_parts = url.parse(req.url, true);
   var code = url_parts.query.code;
   var token = authHelper.getTokenFromCode(code, mailer.tokenReceived, res);
-  console.log("Code: " + code);
-  console.log("Request handler 'authorize' was called.");
+  // console.log("Code: " + code);
+  // console.log("Request handler 'authorize' was called.");
 })
 
 app.post('/post',function(req,res){
@@ -96,8 +96,8 @@ app.post('/post',function(req,res){
 
   } else if (typeofCommand == 'list'){
     var listname = command[1];
-    console.log(listname);
-    console.log(channel);
+    // console.log(listname);
+    // console.log(channel);
 
     trello.list(listname, channel)
 

@@ -96,14 +96,14 @@ var move = function (assetId, destination, channel){
     if (err){
       console.log(err);
     } else {
-      console.log('first block');
+      // console.log('first block');
       for (var i = 0; i < data.length; i++){
         var cardName = data[i]['name'].split(" ");
         var cardId = cardName[0];
 
         if (assetId == cardId){
-          console.log(data[i]['id']);
-          console.log('this is the assetId: ' + cardId);
+          // console.log(data[i]['id']);
+          // console.log('this is the assetId: ' + cardId);
 
           if (destination == 'done' || destination == 'Done'){
             t.put("/1/cards/"+data[i]['id'],{
@@ -133,14 +133,14 @@ var move = function (assetId, destination, channel){
     if (err){
       console.log(err);
     } else {
-      console.log('second block');
+      // console.log('second block');
       for (var i = 0; i < data.length; i++){
         var cardName = data[i]['name'].split(" ");
         var cardId = cardName[0];
 
         if (assetId == cardId){
-          console.log(data[i]['id']);
-          console.log('this is the assetId: ' + cardId);
+          // console.log(data[i]['id']);
+          // console.log('this is the assetId: ' + cardId);
 
           if (destination == 'ready' || destination == 'Ready'){
             t.put("/1/cards/"+data[i]['id'],{
@@ -170,14 +170,14 @@ var move = function (assetId, destination, channel){
     if (err){
       console.log(err);
     } else {
-      console.log('third block');
+      // console.log('third block');
       for (var i = 0; i < data.length; i++){
         var cardName = data[i]['name'].split(" ");
         var cardId = cardName[0];
 
         if (assetId == cardId){
-          console.log(data[i]['id']);
-          console.log('this is the assetId: ' + cardId);
+          // console.log(data[i]['id']);
+          // console.log('this is the assetId: ' + cardId);
 
           if (destination == 'done' || destination == 'Done'){
             t.put("/1/cards/"+data[i]['id'],{
@@ -201,17 +201,16 @@ var move = function (assetId, destination, channel){
     }
   });
   
-
-  console.log('Trello.js has fired off the move command');
+  // console.log('Trello.js has fired off the move command');
     
 };
 
 
 var list = function (listname, channel){
-  console.log('Trello.js has received the list command');
+  // console.log('Trello.js has received the list command');
   // console.log(currentAssets);
-  console.log(listname);
-  console.log(channel);
+  // console.log(listname);
+  // console.log(channel);
   if (listname == 'ready'){
     t.get(
       "/1/lists/559ea8976fe031f2e5147baa/cards", { 
@@ -324,7 +323,7 @@ var list = function (listname, channel){
     });
   }
 
-  console.log('Trello.js has fired off the list to Slack');
+  // console.log('Trello.js has fired off the list to Slack');
   // return listAssets;
   // res.end();
 };

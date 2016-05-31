@@ -16,12 +16,12 @@ var momenttime = moment().tz("America/Los_Angeles").format();
 // Use below for dev
 // var momenttime = moment().tz("America/New_York").format();
 
-console.log('this is momenttime', momenttime);
+// console.log('this is momenttime', momenttime);
 
 var savedTime = momenttime;
 
 // check what was saved
-console.log('this is the saved refresh token: ', savedRefresh);
+// console.log('this is the saved refresh token: ', savedRefresh);
 // console.log('this is the local email: ', localEmail);
 // var savedEmail = localEmail;
 
@@ -35,17 +35,17 @@ var refresh = function() {
           console.log('still not refreshing: ', err);
         } else {
           savedToken = res.token;
-          console.log('using the savedRefresh token worked!');
-          console.log(res);
+          // console.log('using the savedRefresh token worked!');
+          // console.log(res);
           refreshToken = res.refreshToken;
-          console.log('this is the new refresh token');
+          // console.log('this is the new refresh token');
           var newJSON = JSON.stringify(refreshToken);
           fs.writeFile('./token.json', newJSON, function (err) {
             if(err) {
                 return handleError(err);
             } else {
-              console.log('your json has been saved');
-              console.log(newJSON);
+              // console.log('your json has been saved');
+              // console.log(newJSON);
             }
           });
         }
@@ -54,14 +54,14 @@ var refresh = function() {
       savedToken = res.token;
       console.log('refresh triggered');
       refreshToken = res.refreshToken;
-      console.log('this is the new refresh token');
+      // console.log('this is the new refresh token');
       var newJSON = JSON.stringify(refreshToken);
       fs.writeFile('./token.json', newJSON, function (err) {
         if(err) {
             return handleError(err);
         } else {
-          console.log('your json has been saved');
-          console.log(newJSON);
+          // console.log('your json has been saved');
+          // console.log(newJSON);
         }
       });
     }
@@ -78,18 +78,18 @@ var tokenReceived = function(res, error, token) {
         // savedEmail = authHelper.getEmailFromIdToken(token.token.id_token);
         refreshToken = token.token.refresh_token;
         // console.log(token);
-        console.log('This is the token: '+savedToken);
-        console.log('This is the email: '+credentials.inbox);
-        console.log('This is the refresh token: '+refreshToken);
-        console.log("We've auth'ed!");
+        // console.log('This is the token: '+savedToken);
+        // console.log('This is the email: '+credentials.inbox);
+        // console.log('This is the refresh token: '+refreshToken);
+        // console.log("We've auth'ed!");
 
         var newJSON = JSON.stringify(refreshToken);
         fs.writeFile('./token.json', newJSON, function (err) {
           if(err) {
               return handleError(err);
           } else {
-            console.log('your json has been saved');
-            console.log(newJSON);
+            // console.log('your json has been saved');
+            // console.log(newJSON);
           }
         });
 
@@ -119,11 +119,11 @@ var checkMail = function(req, res) {
   // Use below for dev
   // var date = moment().tz("America/New_York").format();
 
-  console.log('Checking mail now');
-  console.log('Initial savedTime check: '+savedTime);
-  console.log('Initial date check: '+date);
-  console.log('Now we check for savedToken');
-  console.log(savedToken);
+  // console.log('Checking mail now');
+  // console.log('Initial savedTime check: '+savedTime);
+  // console.log('Initial date check: '+date);
+  // console.log('Now we check for savedToken');
+  // console.log(savedToken);
 
   // console.log('Now we check for savedEmail');
   // console.log(savedEmail);
@@ -140,9 +140,9 @@ var checkMail = function(req, res) {
       // '$search': '"from:noreply.ap@notification.ap.org"'
     };
     
-    console.log('this is the queryParams');
+    // console.log('this is the queryParams');
 
-    console.log(queryParams);
+    // console.log(queryParams);
 
     // Set the API endpoint to use the v2.0 endpoint
     outlook.base.setApiEndpoint('https://outlook.office.com/api/v2.0');
@@ -153,14 +153,14 @@ var checkMail = function(req, res) {
     outlook.mail.getMessages({token: savedToken, odataParams: queryParams},
       function(error, result) {
 
-        console.log(result);
+        // console.log(result);
 
         if (error) {
           console.log('getMessages returned an error: ' + error);
         } else if (result) {
-          console.log(result);
+          // console.log(result);
           var inbox = result['value'];
-          console.log(inbox);
+          // console.log(inbox);
           for (var x = 0; x < inbox.length; x++) {
             credentials.slack.send({
                   username: 'Associated Press',
