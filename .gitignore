@@ -4,3 +4,6 @@ credentials.js
 /etc
 /logs
 crontab
+token.json
+trello.json
+inbox.json

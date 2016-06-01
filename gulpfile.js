@@ -34,9 +34,10 @@ gulp.task('default', ['sass'], function(){
   gulp.watch(['scss/**/*.scss'], ['sass']);
 });
 
+
 trello.grab();
-// mailer.refresh();
-// mailer.checkMail();
+mailer.refresh();
+mailer.checkMail();
 
 app.use(logger('dev'))
 app.use(express.static(__dirname + '/static'))
@@ -57,13 +58,13 @@ app.get('/', function (req, res, next){
   }
 })
 
-// app.get('/authorize', function (req, res){
-//   var url_parts = url.parse(req.url, true);
-//   var code = url_parts.query.code;
-//   var token = authHelper.getTokenFromCode(code, mailer.tokenReceived, res);
-//   // console.log("Code: " + code);
-//   // console.log("Request handler 'authorize' was called.");
-// })
+app.get('/authorize', function (req, res){
+  var url_parts = url.parse(req.url, true);
+  var code = url_parts.query.code;
+  var token = authHelper.getTokenFromCode(code, mailer.tokenReceived, res);
+  // console.log("Code: " + code);
+  // console.log("Request handler 'authorize' was called.");
+})
 
 app.post('/post',function(req,res){
 
@@ -74,11 +75,13 @@ app.post('/post',function(req,res){
   // });
 
   var response = req.body;
-  // console.log(response);
+  console.log(response);
 
   // Clean up the message
-  message = response['text'].replace(response['trigger_word'] + ' ','');
+  message = response['text'].replace(response['trigger_word'] + ' ','').toLowerCase();
   channel = "#" + response['channel_name'];
+
+  console.log(message);
 
   var command = message.split(" ");
   var typeofCommand = command[0];
@@ -96,8 +99,8 @@ app.post('/post',function(req,res){
 
   } else if (typeofCommand == 'list'){
     var listname = command[1];
-    console.log(listname);
-    console.log(channel);
+    // console.log(listname);
+    // console.log(channel);
 
     trello.list(listname, channel)
 
@@ -153,4 +156,3 @@ app.post('/post',function(req,res){
 
 // LISTEN!
 app.listen(port, "localhost")
-// app.listen(process.env.PORT || 8080);
