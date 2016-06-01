@@ -78,8 +78,10 @@ app.post('/post',function(req,res){
   console.log(response);
 
   // Clean up the message
-  message = response['text'].replace(response['trigger_word'] + ' ','');
+  message = response['text'].replace(response['trigger_word'] + ' ','').toLowerCase();
   channel = "#" + response['channel_name'];
+
+  console.log(message);
 
   var command = message.split(" ");
   var typeofCommand = command[0];
