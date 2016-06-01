@@ -44,6 +44,8 @@ Not all the installed dependencies are currently required/used. I know this is b
 
 ##What Kai needs to do next
 
-The gulpfile needs to be cleaned up and refactored. Trello dies occasionally and gets reset, which means we lose our Outlook authentication, that needs to be worked on or figured out. I have yet to figure out why I get a 403 error on Trello randomly.
+Code has been refactored a little to start compartmentalizing the different functions a little more. "Callback hell" is the next series of things I need to fix. Currently storing refresh token and trello assets in local files ``trello.json`` and ``token.json`` in order to skip the reset issues we were having (bot would randomly die, causing auth to be lost and bot to re-announce assets as they were kept in memory instead of storage).
 
-Outlook is currently disabled, as our server's IP was probably blocked when the bot malfunctioned during a test run. Trello.js has to go through serious refactoring and optimization. The callbacks and promises between gulpfile and trello has to be worked on properly as well.
+Will have to explore security concerns there more, early look into bcrypt is... not too promising.
+
+Still need to figure out what is/was killing the bot, but we've resolved the "undefined" error that was plaguing us some nights. 
