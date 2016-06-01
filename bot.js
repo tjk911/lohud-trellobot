@@ -20,6 +20,7 @@ var parseCommands = function (message, channel){
     // console.log(assetId);
     // console.log(destination);
     // console.log(channel);
+    sendMessage(text, channel, username, emoji);
 
     trello.move(assetId, destination, channel);
 
