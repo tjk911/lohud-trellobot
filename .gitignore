@@ -5,3 +5,5 @@ credentials.js
 /logs
 crontab
 token.json
+trello.json
+inbox.json
