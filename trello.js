@@ -170,7 +170,7 @@ var list = function (listname, channel){
   // console.log(channel);
 
   username = 'Calculon';
-  icon_emoji = ':Calculon:';
+  emoji = ':Calculon:';
 
   if (listname == 'ready'){
     t.get(
@@ -185,6 +185,7 @@ var list = function (listname, channel){
         }
         if (data.length == 1){
           text = 'There is nothing in this list',
+          console.log('t+188');
           bot.sendMessage(text, channel, username, emoji);
         } else {
         // Loop through the list
@@ -192,6 +193,7 @@ var list = function (listname, channel){
             // Check if list is push-worthy
             if (i > 0){
               text = "`"+data[i]['name']+'` is ready';
+              console.log('t+196');
               bot.sendMessage(text, channel, username, emoji);
             } 
           }          
@@ -214,12 +216,14 @@ var list = function (listname, channel){
 
         if (data.length == 1){
           text = 'There is nothing in this list',
+          console.log('t+219');
           bot.sendMessage(text, channel, username, emoji);
         } else {
           for (var i = 0; i < data.length; i++){
             // Check if list is push-worthy
             if (i > 0){
               text = "`"+data[i]['name']+'` has been embargoed';
+              console.log('t+226');
               bot.sendMessage(text, channel, username, emoji);
             }
           }
@@ -242,11 +246,13 @@ var list = function (listname, channel){
 
         if (data.length == 0){
           text = 'There is nothing in this list',
+          console.log('t+249');
           bot.sendMessage(text, channel, username, emoji);
         } else {
           for (var i = 0; i < data.length; i++){
             // Check if list is push-worthy
             text = "`"+data[i]['name']+'` has been published';
+            console.log('t+255');
             bot.sendMessage(text, channel, username, emoji);
           }
         }
@@ -256,7 +262,8 @@ var list = function (listname, channel){
   } else if (listname == undefined){
     text = 'Sorry, you need to specify which list. Use `trellobot help list` to learn how to use this command.';
     username = 'Prof. Farnsworth';
-    icon_emoji = ':farnsworth:';
+    emoji = ':farnsworth:';
+    console.log('t+266');
     bot.sendMessage(text, channel, username, emoji);
   }
 
@@ -272,6 +279,10 @@ var receiveData = function (data){
   // console.log(currentAssets);
   // console.log(data);
 
+  channel = '#audience';
+  username =  'Zoidberg';
+  emoji = ':Zoidberg:';
+
   // Loop through the list
   for (var i = 0; i < data.length; i++){
     // Check if list is push-worthy
@@ -285,6 +296,7 @@ var receiveData = function (data){
         // console.log(data[i]['name'], 'does not exist, so we are pushing and announcing')
         currentAssets.push(data[i]['name']);
         text = "`"+data[i]['name']+'` is ready';
+        console.log('t+299');
         bot.sendMessage(text, channel, username, emoji);
         // console.log(currentAssets);
       }
@@ -302,6 +314,7 @@ var receiveData = function (data){
     } else {
       // console.log(currentAssets[x]+' is now gone')
       text = "`"+currentAssets[x]+'` has been moved out of ready';
+      console.log('t+317');
       bot.sendMessage(text, channel, username, emoji);
       currentAssets = newAssets;
     }

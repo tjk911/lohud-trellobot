@@ -35,14 +35,14 @@ gulp.task('default', ['sass'], function(){
   gulp.watch(['scss/**/*.scss'], ['sass']);
 });
 
-date = Date();
+// date = Date();
 
-text = 'The bot crashed at: ' + date;
-channel = '#trellotest';
-username =  'Bender';
-emoji = ':Bender:';
+// text = 'The bot crashed at: ' + date;
+// channel = '#trellotest';
+// username =  'Bender';
+// emoji = ':Bender:';
 
-bot.sendMessage(text, channel, username, emoji);
+// bot.sendMessage(text, channel, username, emoji);
 
 trello.grab();
 mailer.refresh();
@@ -92,9 +92,6 @@ app.post('/post',function(req,res){
 
   console.log(message);
   bot.parseCommands(message, channel);
-
-  var command = message.split(" ");
-  var typeofCommand = command[0];
 
 });
 

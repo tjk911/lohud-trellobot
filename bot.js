@@ -1,9 +1,13 @@
 var credentials = require('./credentials')
 
+var text = channel = username = emoji = '';
+
 var parseCommands = function (message, channel){
   var trello = require('./trello')
   var command = message.split(" ");
   var typeofCommand = command[0];
+
+  // console.log(channel);
 
   if (typeofCommand == 'move'){
     var assetId = command[1];
@@ -13,9 +17,9 @@ var parseCommands = function (message, channel){
     username = 'Kif Kroker';
     emoji = ':kif:';
 
-    console.log(assetId);
-    console.log(destination);
-    console.log(channel);
+    // console.log(assetId);
+    // console.log(destination);
+    // console.log(channel);
 
     trello.move(assetId, destination, channel);
 
@@ -43,12 +47,13 @@ var parseCommands = function (message, channel){
     } else if (typeofHelp == 'help'){
       text = "I think we're stuck in an infinity loop...";
     }
+    sendMessage(text, channel, username, emoji);
   } else {
     username = 'Prof. Farnsworth';
     emoji = ':farnsworth:';
     text = "I just finished turbo-charging this bot's matter compressor! Type `trellobot help` to get started!";
+    sendMessage(text, channel, username, emoji);
   }
-  sendMessage(text, channel, username, emoji);
 };
 
 var sendMessage = function (text, channel, username, emoji){
