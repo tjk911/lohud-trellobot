@@ -22,15 +22,10 @@ var grab = function (){
       // if (err) throw err;
       if (err){
         console.log(err);
-      }
-      // Check to see if there are changes
-      if (currentLength == data.length){
-        // console.log("Don't do anything");
       } else {
         // console.log(data);
         receiveData(data);
       }
-      
     }
   );
   // set refresh frequency
@@ -50,14 +45,14 @@ var receiveData = function (data) {
 
       // Check if it exists in assets
       if (currentAssets.indexOf(data[i]['name']) > -1){
-        // console.log('found it')
+        console.log('found it')
       } else {
-        // console.log('does not exist, so we are pushing and announcing')
+        console.log('does not exist, so we are pushing and announcing')
         currentAssets.push(data[i]['name']);
         credentials.slack.send({
             text: "`"+data[i]['name']+'` is ready',
-            channel: '#audience',
-            // channel: '#trellotest',
+            // channel: '#audience',
+            channel: '#trellotest',
             username: 'Zoidberg',
             icon_emoji: ':Zoidberg:',
         });
@@ -72,13 +67,13 @@ var receiveData = function (data) {
 
     // check if assets exist in data
     if (newAssets.indexOf(currentAssets[x]) > -1){
-      // console.log(currentAssets[x]+' is still here')
+      console.log(currentAssets[x]+' is still here')
     } else {
-      // console.log(currentAssets[x]+' is now gone')
+      console.log(currentAssets[x]+' is now gone')
       credentials.slack.send({
           text: "`"+currentAssets[x]+'` has been moved out of ready',
-          channel: '#audience',
-          // channel: '#trellotest',
+          // channel: '#audience',
+          channel: '#trellotest',
           username: 'Zoidberg',
           icon_emoji: ':Zoidberg:',
       }, function(err, response){
@@ -88,6 +83,8 @@ var receiveData = function (data) {
     }
   }
   // end loop through the asset
+  var date = Date();
+  console.log(date, " just grabbed")
   setTimeout(grab, 5000);
 }
 
@@ -101,14 +98,14 @@ var move = function (assetId, destination, channel){
     if (err){
       console.log(err);
     } else {
-      // console.log('first block');
+      console.log('first block');
       for (var i = 0; i < data.length; i++){
         var cardName = data[i]['name'].split(" ");
         var cardId = cardName[0];
 
         if (assetId == cardId){
-          // console.log(data[i]['id']);
-          // console.log('this is the assetId: ' + cardId);
+          console.log(data[i]['id']);
+          console.log('this is the assetId: ' + cardId);
 
           if (destination == 'done' || destination == 'Done'){
             t.put("/1/cards/"+data[i]['id'],{
@@ -138,14 +135,14 @@ var move = function (assetId, destination, channel){
     if (err){
       console.log(err);
     } else {
-      // console.log('second block');
+      console.log('second block');
       for (var i = 0; i < data.length; i++){
         var cardName = data[i]['name'].split(" ");
         var cardId = cardName[0];
 
         if (assetId == cardId){
-          // console.log(data[i]['id']);
-          // console.log('this is the assetId: ' + cardId);
+          console.log(data[i]['id']);
+          console.log('this is the assetId: ' + cardId);
 
           if (destination == 'ready' || destination == 'Ready'){
             t.put("/1/cards/"+data[i]['id'],{
@@ -175,14 +172,14 @@ var move = function (assetId, destination, channel){
     if (err){
       console.log(err);
     } else {
-      // console.log('third block');
+      console.log('third block');
       for (var i = 0; i < data.length; i++){
         var cardName = data[i]['name'].split(" ");
         var cardId = cardName[0];
 
         if (assetId == cardId){
-          // console.log(data[i]['id']);
-          // console.log('this is the assetId: ' + cardId);
+          console.log(data[i]['id']);
+          console.log('this is the assetId: ' + cardId);
 
           if (destination == 'done' || destination == 'Done'){
             t.put("/1/cards/"+data[i]['id'],{
@@ -206,16 +203,16 @@ var move = function (assetId, destination, channel){
     }
   });
   
-  // console.log('Trello.js has fired off the move command');
+  console.log('Trello.js has fired off the move command');
     
 };
 
 
 var list = function (listname, channel){
-  // console.log('Trello.js has received the list command');
-  // console.log(currentAssets);
-  // console.log(listname);
-  // console.log(channel);
+  console.log('Trello.js has received the list command');
+  console.log(currentAssets);
+  console.log(listname);
+  console.log(channel);
   if (listname == 'ready'){
     t.get(
       "/1/lists/559ea8976fe031f2e5147baa/cards", { 
@@ -330,7 +327,7 @@ var list = function (listname, channel){
     });
   }
 
-  // console.log('Trello.js has fired off the list to Slack');
+  console.log('Trello.js has fired off the list to Slack');
   // return listAssets;
   // res.end();
 };
@@ -339,5 +336,6 @@ var list = function (listname, channel){
 module.exports ={
   grab: grab,
   move: move,
-  list: list
+  list: list,
+  receiveData: receiveData
 }

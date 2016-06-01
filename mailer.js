@@ -180,7 +180,7 @@ var checkMail = function (req, res) {
 };
 
 var rePingMail = function (result) {
-  console.log(result);
+  // console.log(result);
   if (result == undefined) {
     console.log('this is rePing saying mailerjs is broken');
   } else {
@@ -205,5 +205,6 @@ module.exports = {
   tokenReceived: tokenReceived,
   getValueFromCookie: getValueFromCookie,
   checkMail: checkMail,
-  refresh: refresh
+  refresh: refresh,
+  rePingMail: rePingMail
 }
