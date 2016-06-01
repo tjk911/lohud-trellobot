@@ -1,17 +1,19 @@
 var Trello = require('node-trello')
   , credentials = require('./credentials')
   , t = new Trello(credentials.t1, credentials.t2)
-  , fs = require("fs")
-  , tFile = require("./trello.json")
+  , fs = require('fs')
+  , tFile = require('./trello.json')
+
+var bot = require('./bot')
 
 var currentLength = 0;
 var currentAssets = [];
+var text, channel, username, emoji;
 
-for (var i = 0; i < tFile.length; i++) {
+for (var i = 0; i < tFile.length; i++){
   console.log(tFile[i]);
   currentAssets.push(tFile[i]);
 }
-
 
 // URL arguments are passed in as an object.
 
@@ -39,74 +41,7 @@ var grab = function (){
   // set refresh frequency
 };
 
-var receiveData = function (data) {
-  // console.log(data);
-  console.log('just received trello data');
-  currentLength = data.length;
-  var newAssets = [];
-  console.log(currentAssets);
-  // console.log(data);
 
-  // Loop through the list
-  for (var i = 0; i < data.length; i++){
-    // Check if list is push-worthy
-    if (i > 0){
-      newAssets.push(data[i]['name']);
-
-      // Check if it exists in assets
-      if (currentAssets.indexOf(data[i]['name']) > -1){
-        // console.log('found it')
-      } else {
-        // console.log(data[i]['name'], 'does not exist, so we are pushing and announcing')
-        currentAssets.push(data[i]['name']);
-        credentials.slack.send({
-            text: "`"+data[i]['name']+'` is ready',
-            channel: '#audience',
-            // channel: '#trellotest',
-            username: 'Zoidberg',
-            icon_emoji: ':Zoidberg:',
-        });
-        // console.log(currentAssets);
-      }
-    }
-  }
-  // End loop through the list
-
-  // Loop through the asset
-  for (var x = 0; x < currentAssets.length; x++){
-    var assetpos = newAssets.indexOf(currentAssets[x]);
-
-    // check if assets exist in data
-    if (newAssets.indexOf(currentAssets[x]) > -1){
-      // console.log(currentAssets[x]+' is still here')
-    } else {
-      // console.log(currentAssets[x]+' is now gone')
-      credentials.slack.send({
-          text: "`"+currentAssets[x]+'` has been moved out of ready',
-          channel: '#audience',
-          // channel: '#trellotest',
-          username: 'Zoidberg',
-          icon_emoji: ':Zoidberg:',
-      }, function(err, response){
-        console.log(err);
-        currentAssets = newAssets;
-      });
-    }
-  }
-  // end loop through the asset
-  var date = Date();
-  // console.log(date, " just grabbed")
-  setTimeout(grab, 5000);
-  var newJSON = JSON.stringify(currentAssets);
-  fs.writeFile('./trello.json', newJSON, function (err) {
-    if(err) {
-        return handleError(err);
-    } else {
-      // console.log('your currentAssets has been saved');
-      // console.log(newJSON);
-    }
-  });
-}
 
 var move = function (assetId, destination, channel){
 
@@ -233,6 +168,10 @@ var list = function (listname, channel){
   // console.log(currentAssets);
   // console.log(listname);
   // console.log(channel);
+
+  username = 'Calculon';
+  icon_emoji = ':Calculon:';
+
   if (listname == 'ready'){
     t.get(
       "/1/lists/559ea8976fe031f2e5147baa/cards", { 
@@ -245,23 +184,15 @@ var list = function (listname, channel){
           console.log(err);
         }
         if (data.length == 1){
-          credentials.slack.send({
-              text: 'There is nothing in this list',
-              channel: channel,
-              username: 'Calculon',
-              icon_emoji: ':Calculon:',
-          });
+          text = 'There is nothing in this list',
+          bot.sendMessage(text, channel, username, emoji);
         } else {
         // Loop through the list
           for (var i = 0; i < data.length; i++){
             // Check if list is push-worthy
             if (i > 0){
-              credentials.slack.send({
-                  text: "`"+data[i]['name']+'` is ready',
-                  channel: channel,
-                  username: 'Calculon',
-                  icon_emoji: ':Calculon:',
-              });          
+              text = "`"+data[i]['name']+'` is ready';
+              bot.sendMessage(text, channel, username, emoji);
             } 
           }          
         }
@@ -282,22 +213,14 @@ var list = function (listname, channel){
         // Loop through the list
 
         if (data.length == 1){
-          credentials.slack.send({
-              text: 'There is nothing in this list',
-              channel: channel,
-              username: 'Calculon',
-              icon_emoji: ':Calculon:',
-          });
+          text = 'There is nothing in this list',
+          bot.sendMessage(text, channel, username, emoji);
         } else {
           for (var i = 0; i < data.length; i++){
             // Check if list is push-worthy
-            if (i > 0) {
-              credentials.slack.send({
-                  text: "`"+data[i]['name']+'` has been embargoed',
-                  channel: channel,
-                  username: 'Calculon',
-                  icon_emoji: ':Calculon:',
-              });   
+            if (i > 0){
+              text = "`"+data[i]['name']+'` has been embargoed';
+              bot.sendMessage(text, channel, username, emoji);
             }
           }
         }
@@ -318,41 +241,88 @@ var list = function (listname, channel){
         // Loop through the list
 
         if (data.length == 0){
-          credentials.slack.send({
-              text: 'There is nothing in this list',
-              channel: channel,
-              username: 'Calculon',
-              icon_emoji: ':Calculon:',
-          });
+          text = 'There is nothing in this list',
+          bot.sendMessage(text, channel, username, emoji);
         } else {
           for (var i = 0; i < data.length; i++){
             // Check if list is push-worthy
-            credentials.slack.send({
-                text: "`"+data[i]['name']+'` has been published',
-                channel: channel,
-                username: 'Calculon',
-                icon_emoji: ':Calculon:',
-            });
+            text = "`"+data[i]['name']+'` has been published';
+            bot.sendMessage(text, channel, username, emoji);
           }
         }
         // End loop through the list
       }
     );
-  } else if (listname == undefined) {
-    credentials.slack.send({
-        text: "Sorry, you need to specify which list. Use `trellobot help list` to learn how to use this command.",
-        channel: channel,
-        username: 'Prof. Farnsworth',
-        icon_emoji: ':farnsworth:',
-    });
+  } else if (listname == undefined){
+    text = 'Sorry, you need to specify which list. Use `trellobot help list` to learn how to use this command.';
+    username = 'Prof. Farnsworth';
+    icon_emoji = ':farnsworth:';
+    bot.sendMessage(text, channel, username, emoji);
   }
 
   console.log('Trello.js has fired off the list to Slack');
   // return listAssets;
 };
 
+var receiveData = function (data){
+  // console.log(data);
+  console.log('just received trello data');
+  currentLength = data.length;
+  var newAssets = [];
+  // console.log(currentAssets);
+  // console.log(data);
 
-module.exports ={
+  // Loop through the list
+  for (var i = 0; i < data.length; i++){
+    // Check if list is push-worthy
+    if (i > 0){
+      newAssets.push(data[i]['name']);
+
+      // Check if it exists in assets
+      if (currentAssets.indexOf(data[i]['name']) > -1){
+        // console.log('found it')
+      } else {
+        // console.log(data[i]['name'], 'does not exist, so we are pushing and announcing')
+        currentAssets.push(data[i]['name']);
+        text = "`"+data[i]['name']+'` is ready';
+        bot.sendMessage(text, channel, username, emoji);
+        // console.log(currentAssets);
+      }
+    }
+  }
+  // End loop through the list
+
+  // Loop through the asset
+  for (var x = 0; x < currentAssets.length; x++){
+    var assetpos = newAssets.indexOf(currentAssets[x]);
+
+    // check if assets exist in data
+    if (newAssets.indexOf(currentAssets[x]) > -1){
+      // console.log(currentAssets[x]+' is still here')
+    } else {
+      // console.log(currentAssets[x]+' is now gone')
+      text = "`"+currentAssets[x]+'` has been moved out of ready';
+      bot.sendMessage(text, channel, username, emoji);
+      currentAssets = newAssets;
+    }
+  }
+  // end loop through the asset
+
+  var date = Date();
+  // console.log(date, " just grabbed")
+  setTimeout(grab, 5000);
+  var newJSON = JSON.stringify(currentAssets);
+  fs.writeFile('./trello.json', newJSON, function (err){
+    if(err){
+        return handleError(err);
+    } else {
+      // console.log('your currentAssets has been saved');
+      // console.log(newJSON);
+    }
+  });
+}
+
+module.exports = {
   grab: grab,
   move: move,
   list: list,

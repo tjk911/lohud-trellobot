@@ -5,6 +5,7 @@ var outlook = require('node-outlook')
   , moment = require('moment-timezone')
   , fs = require("fs")
   , savedRefresh = require('./token.json')
+  , bot = require('./bot')
 
 var savedToken;
 var refreshToken;
@@ -26,12 +27,12 @@ var savedTime = momenttime;
 // var savedEmail = localEmail;
 
 
-var refresh = function () {
-  outlook_refresh(refreshToken, credentials.oauthcredID, credentials.oauthcredSecret, function (err, res) {
-    if (err) {
+var refresh = function (){
+  outlook_refresh(refreshToken, credentials.oauthcredID, credentials.oauthcredSecret, function (err, res){
+    if (err){
       console.log('refresh error: ', err);
-      outlook_refresh(savedRefresh, credentials.oauthcredID, credentials.oauthcredSecret, function (err, res) {
-        if (err) {
+      outlook_refresh(savedRefresh, credentials.oauthcredID, credentials.oauthcredSecret, function (err, res){
+        if (err){
           console.log('still not refreshing: ', err);
         } else {
           console.log('Calling for mailerRefresh1');
@@ -45,14 +46,14 @@ var refresh = function () {
   }); 
 };
 
-var mailerRefresh = function (res) {
+var mailerRefresh = function (res){
   savedToken = res.token;
   console.log('refresh triggered');
   refreshToken = res.refreshToken;
   console.log('this is the new refresh token');
   var newJSON = JSON.stringify(refreshToken);
-  fs.writeFile('./token.json', newJSON, function (err) {
-    if(err) {
+  fs.writeFile('./token.json', newJSON, function (err){
+    if(err){
         return handleError(err);
     } else {
       // console.log('your json has been saved');
@@ -62,8 +63,8 @@ var mailerRefresh = function (res) {
   setTimeout(refresh, 1800000); // 1000 = 1 sec, currently 30 mins
 }
 
-var tokenReceived = function (res, error, token) {
-  if (error) {
+var tokenReceived = function (res, error, token){
+  if (error){
     console.log("Access token error: ", error.message);
   }
   else {
@@ -77,8 +78,8 @@ var tokenReceived = function (res, error, token) {
     // console.log("We've auth'ed!");
 
     var newJSON = JSON.stringify(refreshToken);
-    fs.writeFile('./token.json', newJSON, function (err) {
-      if(err) {
+    fs.writeFile('./token.json', newJSON, function (err){
+      if(err){
           return handleError(err);
       } else {
         // console.log('your json has been saved');
@@ -95,8 +96,8 @@ var tokenReceived = function (res, error, token) {
   }
 };
 
-var getValueFromCookie = function (valueName, cookie) {
-  if (cookie.indexOf(valueName) !== -1) {
+var getValueFromCookie = function (valueName, cookie){
+  if (cookie.indexOf(valueName) !== -1){
     var start = cookie.indexOf(valueName) + valueName.length + 1;
     var end = cookie.indexOf(';', start);
     end = end === -1 ? cookie.length : end;
@@ -104,7 +105,7 @@ var getValueFromCookie = function (valueName, cookie) {
   }
 };
 
-var checkMail = function (req, res) {
+var checkMail = function (req, res){
   
   // Use below for stage/prod
   var date = moment().tz("America/Los_Angeles").format();
@@ -123,15 +124,15 @@ var checkMail = function (req, res) {
 
   // t = new Date();
 
-  if (savedToken == undefined) {
+  if (savedToken == undefined){
     console.log(date, 'mailer.js broke!');
     alertCounter ++;
-    if (alertCounter == 30) {
+    if (alertCounter == 30){
       alertCounter = 0;
       credentials.slack.send({
         username: 'OutlookBot',
         text: "Our outlook authentication is dead! Please re-login at `http://trellobot.lohudblogs.com` with our digital@gannett.com account!",
-        icon_emoji: ':calculon',
+        icon_emoji: ':calculon:',
         channel: '#audience',
         // channel: '#trellotest',
       })
@@ -158,14 +159,14 @@ var checkMail = function (req, res) {
     outlook.base.setAnchorMailbox(credentials.inbox);
 
     outlook.mail.getMessages({token: savedToken, odataParams: queryParams},
-      function (error, result) {
+      function (error, result){
 
         // console.log(result);
 
-        if (error) {
+        if (error){
           console.log('getMessages returned an error: ' + error);
           rePingMail(result);
-        } else if (result) {
+        } else if (result){
           rePingMail(result);
         }
       }
@@ -179,14 +180,14 @@ var checkMail = function (req, res) {
   savedTime = date;
 };
 
-var rePingMail = function (result) {
+var rePingMail = function (result){
   // console.log(result);
-  if (result == undefined) {
+  if (result == undefined){
     console.log('this is rePing saying mailerjs is broken');
   } else {
     var inbox = result['value'];
     // console.log(inbox);
-    for (var x = 0; x < inbox.length; x++) {
+    for (var x = 0; x < inbox.length; x++){
       credentials.slack.send({
         username: 'Associated Press',
         text: "`AP NOTIFICATION:` *"+inbox[x]['Subject']+'*',
@@ -199,7 +200,7 @@ var rePingMail = function (result) {
   var date = moment().tz("America/Los_Angeles").format();
   console.log(date, 'mail pinged');
   setTimeout(checkMail, 30000);
-}
+};
 
 module.exports = {
   tokenReceived: tokenReceived,
