@@ -127,7 +127,7 @@ var checkMail = function (req, res){
   if (savedToken == undefined){
     console.log(date, 'mailer.js broke!');
     alertCounter ++;
-    if (alertCounter == 30){
+    if (alertCounter == 60){
       alertCounter = 0;
       credentials.slack.send({
         username: 'OutlookBot',
