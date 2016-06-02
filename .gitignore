@@ -6,4 +6,4 @@ credentials.js
 crontab
 token.json
 trello.json
-inbox.json
+syslog
