@@ -198,7 +198,7 @@ var rePingMail = function (result){
     }
   }
   var date = moment().tz("America/Los_Angeles").format();
-  console.log(date, 'mail pinged');
+  // console.log(date, 'mail pinged');
   setTimeout(checkMail, 30000);
 };
 

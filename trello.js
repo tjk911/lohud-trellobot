@@ -3,8 +3,7 @@ var Trello = require('node-trello')
   , t = new Trello(credentials.t1, credentials.t2)
   , fs = require('fs')
   , tFile = require('./trello.json')
-
-var bot = require('./bot')
+  , bot = require('./bot')
 
 var currentLength = 0;
 var currentAssets = [];
@@ -14,6 +13,8 @@ for (var i = 0; i < tFile.length; i++){
   console.log(tFile[i]);
   currentAssets.push(tFile[i]);
 }
+
+var date = Date();
 
 // URL arguments are passed in as an object.
 
@@ -32,6 +33,12 @@ var grab = function (){
       // if (err) throw err;
       if (err){
         console.log(err);
+        text = 'Our bot died at:' + date;
+        channel = '#trellotest';
+        username = 'Bender';
+        emoji = ':bender:';
+        bot.sendMessage(text, channel, username, emoji);
+        receiveData();
       } else {
         // console.log(data);
         receiveData(data);
@@ -41,136 +48,69 @@ var grab = function (){
   // set refresh frequency
 };
 
-
-
 var move = function (assetId, destination, channel){
 
   console.log('Trello.js has received the move command');
 
-  t.get("/1/lists/559ea8976fe031f2e5147baa/cards", { // loop through ready
+  var lists = ['/1/lists/559ea8976fe031f2e5147baa/cards',"/1/lists/56af9e1a8f6e960993eb24ac/cards","/1/lists/55b13a806c042819824c029f/cards"];
 
-  }, function (err, data){
-    if (err){
-      console.log(err);
-    } else {
-      // console.log('first block');
-      for (var i = 0; i < data.length; i++){
-        var cardName = data[i]['name'].split(" ");
-        var cardId = cardName[0];
+  // console.log(lists);
 
-        if (assetId == cardId){
-          // console.log(data[i]['id']);
-          // console.log('this is the assetId: ' + cardId);
+  for (var i = 0; i < lists.length; i++){
+    t.get(lists[i], {
 
-          if (destination == 'done' || destination == 'Done'){
-            t.put("/1/cards/"+data[i]['id'],{
-              idList: '56af9e1a8f6e960993eb24ac'
-            }, function (err){
-              if (err){
-                console.log(err);
-              }
-            })
-          } else if (destination == 'embargoed' || destination == 'Embargoed' || destination == 'Embargo' || destination == 'embargo'){
-            t.put("/1/cards/"+data[i]['id'],{
-              idList: '55b13a806c042819824c029f'
-            }, function (err){
-              if (err){
-                console.log(err);
-              }
-            })
+    }, function (err, data){
+      if (err){
+        console.log(err);
+      } else {
+        for (var i = 0; i < data.length; i++){
+          var cardName = data[i]['name'].split(" ");
+          var cardId = cardName[0];
+
+          if (assetId == cardId){
+            // console.log(data[i]['id']);
+            // console.log('this is the assetId: ' + cardId);
+            cleanedDestination = destination.toLowerCase();
+            if (cleanedDestination == 'done'){
+              t.put("/1/cards/"+data[i]['id'],{
+                idList: '56af9e1a8f6e960993eb24ac'
+              }, function (err){
+                if (err){
+                  console.log(err);
+                }
+              })
+            } else if (cleanedDestination == 'embargoed' || destination == 'embargo') {
+              t.put("/1/cards/"+data[i]['id'],{
+                idList: '55b13a806c042819824c029f'
+              }, function (err){
+                if (err){
+                  console.log(err);
+                }
+              })
+            } else if (cleanedDestination == 'ready'){
+              t.put("/1/cards/"+data[i]['id'],{
+                idList: '559ea8976fe031f2e5147baa'
+              }, function (err){
+                if (err){
+                  console.log(err);
+                }
+              })
+            }
           }
         }
       }
-    }
-  });
-
-  t.get("/1/lists/56af9e1a8f6e960993eb24ac/cards", { // loop through done
-
-  }, function (err, data){
-    if (err){
-      console.log(err);
-    } else {
-      // console.log('second block');
-      for (var i = 0; i < data.length; i++){
-        var cardName = data[i]['name'].split(" ");
-        var cardId = cardName[0];
-
-        if (assetId == cardId){
-          // console.log(data[i]['id']);
-          // console.log('this is the assetId: ' + cardId);
-
-          if (destination == 'ready' || destination == 'Ready'){
-            t.put("/1/cards/"+data[i]['id'],{
-              idList: '559ea8976fe031f2e5147baa'
-            }, function (err){
-              if (err){
-                console.log(err);
-              }
-            })
-          } else if (destination == 'embargoed' || destination == 'Embargoed' || destination == 'Embargo' || destination == 'embargo'){
-            t.put("/1/cards/"+data[i]['id'],{
-              idList: '55b13a806c042819824c029f'
-            }, function (err){
-              if (err){
-                console.log(err);
-              }
-            })
-          }
-        }
-      }
-    }
-  });
-
-  t.get("/1/lists/55b13a806c042819824c029f/cards", { // loop through embargoed
-
-  }, function (err, data){
-    if (err){
-      console.log(err);
-    } else {
-      // console.log('third block');
-      for (var i = 0; i < data.length; i++){
-        var cardName = data[i]['name'].split(" ");
-        var cardId = cardName[0];
-
-        if (assetId == cardId){
-          // console.log(data[i]['id']);
-          // console.log('this is the assetId: ' + cardId);
-
-          if (destination == 'done' || destination == 'Done'){
-            t.put("/1/cards/"+data[i]['id'],{
-              idList: '56af9e1a8f6e960993eb24ac'
-            }, function (err){
-              if (err){
-                console.log(err);
-              }
-            })
-          } else if (destination == 'ready' || destination == 'Ready'){
-            t.put("/1/cards/"+data[i]['id'],{
-              idList: '559ea8976fe031f2e5147baa'
-            }, function (err){
-              if (err){
-                console.log(err);
-              }
-            })
-          }
-        } 
-      }
-    }
-  });
+    })
+  }
   
   console.log('Trello.js has fired off the move command');
     
 };
-
 
 var list = function (listname, channel){
   console.log('Trello.js has received the list command');
   // console.log(currentAssets);
   // console.log(listname);
   // console.log(channel);
-
-  username = 'Calculon';
-  emoji = ':Calculon:';
 
   if (listname == 'ready'){
     t.get(
@@ -183,25 +123,10 @@ var list = function (listname, channel){
         if (err){
           console.log(err);
         }
-        if (data.length == 1){
-          text = 'There is nothing in this list',
-          console.log('t+188');
-          bot.sendMessage(text, channel, username, emoji);
-        } else {
-        // Loop through the list
-          for (var i = 0; i < data.length; i++){
-            // Check if list is push-worthy
-            if (i > 0){
-              text = "`"+data[i]['name']+'` is ready';
-              console.log('t+196');
-              bot.sendMessage(text, channel, username, emoji);
-            } 
-          }          
-        }
-        // End loop through the list
+        checkList(data, channel);
       }
     );
-  } else if (listname == 'embargoed'){
+  } else if (listname == 'embargoed' || listname == 'embargo'){
     t.get(
       "/1/lists/55b13a806c042819824c029f/cards", { 
         // filter: "open", 
@@ -212,23 +137,7 @@ var list = function (listname, channel){
         if (err){
           console.log(err);
         }
-        // Loop through the list
-
-        if (data.length == 1){
-          text = 'There is nothing in this list',
-          console.log('t+219');
-          bot.sendMessage(text, channel, username, emoji);
-        } else {
-          for (var i = 0; i < data.length; i++){
-            // Check if list is push-worthy
-            if (i > 0){
-              text = "`"+data[i]['name']+'` has been embargoed';
-              console.log('t+226');
-              bot.sendMessage(text, channel, username, emoji);
-            }
-          }
-        }
-        // End loop through the list
+        checkList(data, channel);
       }
     );
   } else if (listname == 'done'){
@@ -242,21 +151,7 @@ var list = function (listname, channel){
         if (err){
           console.log(err);
         }
-        // Loop through the list
-
-        if (data.length == 0){
-          text = 'There is nothing in this list',
-          console.log('t+249');
-          bot.sendMessage(text, channel, username, emoji);
-        } else {
-          for (var i = 0; i < data.length; i++){
-            // Check if list is push-worthy
-            text = "`"+data[i]['name']+'` has been published';
-            console.log('t+255');
-            bot.sendMessage(text, channel, username, emoji);
-          }
-        }
-        // End loop through the list
+        checkList(data, channel);
       }
     );
   } else if (listname == undefined){
@@ -266,14 +161,33 @@ var list = function (listname, channel){
     console.log('t+266');
     bot.sendMessage(text, channel, username, emoji);
   }
-
   console.log('Trello.js has fired off the list to Slack');
   // return listAssets;
 };
 
+var checkList = function (data, channel){
+  username = 'Calculon';
+  emoji = ':Calculon:';
+
+  if (data.length == 1){
+    text = 'There is nothing in this list',
+    console.log('t+219');
+    bot.sendMessage(text, channel, username, emoji);
+  } else {
+    for (var i = 0; i < data.length; i++){
+      // Check if list is push-worthy
+      if (i > 0){
+        text = "`"+data[i]['name']+'`';
+        console.log('t+226');
+        bot.sendMessage(text, channel, username, emoji);
+      }
+    }
+  }
+}
+
 var receiveData = function (data){
   // console.log(data);
-  console.log('just received trello data');
+  // console.log(date, ': just received trello data');
   currentLength = data.length;
   var newAssets = [];
   // console.log(currentAssets);
@@ -321,13 +235,13 @@ var receiveData = function (data){
   }
   // end loop through the asset
 
-  var date = Date();
   // console.log(date, " just grabbed")
   setTimeout(grab, 5000);
   var newJSON = JSON.stringify(currentAssets);
   fs.writeFile('./trello.json', newJSON, function (err){
     if(err){
         return handleError(err);
+        console.log(err);
     } else {
       // console.log('your currentAssets has been saved');
       // console.log(newJSON);
@@ -339,5 +253,6 @@ module.exports = {
   grab: grab,
   move: move,
   list: list,
-  receiveData: receiveData
+  receiveData: receiveData,
+  checkList: checkList
 }
