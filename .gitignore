@@ -6,3 +6,4 @@ credentials.js
 crontab
 token.json
 trello.json
+syslog

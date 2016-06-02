@@ -15,7 +15,6 @@ for (var i = 0; i < tFile.length; i++){
   currentAssets.push(tFile[i]);
 }
 
-
 // Story asset routing board id: 559ea83005b8ca18ee32c19f
 // Embargoed list id: 55b13a806c042819824c029f
 // Done list id: 56af9e1a8f6e960993eb24ac
@@ -97,9 +96,7 @@ var move = function (assetId, destination, channel){
       }
     })
   }
-  
   console.log('Trello.js has fired off the move command');
-    
 };
 
 var list = function (listname, channel){
