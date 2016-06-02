@@ -26,7 +26,6 @@ var savedTime = momenttime;
 // console.log('this is the local email: ', localEmail);
 // var savedEmail = localEmail;
 
-
 var refresh = function (){
   outlook_refresh(refreshToken, credentials.oauthcredID, credentials.oauthcredSecret, function (err, res){
     if (err){
@@ -149,7 +148,6 @@ var checkMail = function (req, res){
     };
     
     // console.log('this is the queryParams');
-
     // console.log(queryParams);
 
     // Set the API endpoint to use the v2.0 endpoint

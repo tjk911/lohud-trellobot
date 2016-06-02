@@ -8,15 +8,13 @@ var Trello = require('node-trello')
 var currentLength = 0;
 var currentAssets = [];
 var text, channel, username, emoji;
+var date = Date();
 
 for (var i = 0; i < tFile.length; i++){
-  console.log(tFile[i]);
+  // console.log(tFile[i]);
   currentAssets.push(tFile[i]);
 }
 
-var date = Date();
-
-// URL arguments are passed in as an object.
 
 // Story asset routing board id: 559ea83005b8ca18ee32c19f
 // Embargoed list id: 55b13a806c042819824c029f
@@ -53,8 +51,6 @@ var move = function (assetId, destination, channel){
   console.log('Trello.js has received the move command');
 
   var lists = ['/1/lists/559ea8976fe031f2e5147baa/cards',"/1/lists/56af9e1a8f6e960993eb24ac/cards","/1/lists/55b13a806c042819824c029f/cards"];
-
-  // console.log(lists);
 
   for (var i = 0; i < lists.length; i++){
     t.get(lists[i], {

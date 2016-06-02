@@ -35,15 +35,6 @@ gulp.task('default', ['sass'], function(){
   gulp.watch(['scss/**/*.scss'], ['sass']);
 });
 
-// date = Date();
-
-// text = 'The bot crashed at: ' + date;
-// channel = '#trellotest';
-// username =  'Bender';
-// emoji = ':Bender:';
-
-// bot.sendMessage(text, channel, username, emoji);
-
 trello.grab();
 mailer.refresh();
 mailer.checkMail();
@@ -90,7 +81,7 @@ app.post('/post',function(req,res){
   message = response['text'].replace(response['trigger_word'] + ' ','').toLowerCase();
   channel = "#" + response['channel_name'];
 
-  console.log(message);
+  // console.log(message);
   bot.parseCommands(message, channel);
 
 });
