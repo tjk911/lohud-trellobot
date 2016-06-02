@@ -15,10 +15,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "testsite"
+    "url": "https://github.com/tjk911/lohud-trellobot/"
   },
   "bugs": {
-    "url": "https://github.com/tjk911/trellobot/",
+    "url": "https://github.com/tjk911/lohud-trellobot/",
     "email": "kai.teoh@gmail.com"
   },
   "author": "Kai Teoh <kai.teoh@gmail.com>",
