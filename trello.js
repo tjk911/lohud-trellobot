@@ -49,7 +49,7 @@ var move = function (assetId, destination, channel){
 
   console.log('Trello.js has received the move command');
 
-  var lists = ['/1/lists/559ea8976fe031f2e5147baa/cards',"/1/lists/56af9e1a8f6e960993eb24ac/cards","/1/lists/55b13a806c042819824c029f/cards"];
+  var lists = ['/1/lists/559ea8976fe031f2e5147baa/cards',"/1/lists/56af9e1a8f6e960993eb24ac/cards","/1/lists/55b13a806c042819824c029f/cards","/1/lists/559ea8807d35a7f8ec25edc4"];
 
   for (var i = 0; i < lists.length; i++){
     t.get(lists[i], {

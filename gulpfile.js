@@ -82,7 +82,7 @@ app.post('/post',function(req,res){
 
   // console.log(message);
   bot.parseCommands(message, channel);
-
+  // res.json(reply);
 });
 
 // LISTEN!

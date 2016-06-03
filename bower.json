@@ -7,7 +7,7 @@
   "description": "Basic bot for Slack that manipulates Trello & Outlook",
   "main": "index.html",
   "license": "MIT",
-  "homepage": "http://lohud.com",
+  "homepage": "https://github.com/tjk911/lohud-trellobot/",
   "dependencies": {
     "foundation-sites": "~6.1.2",
     "motion-ui": "~1.1.0",

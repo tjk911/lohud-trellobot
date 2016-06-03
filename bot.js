@@ -1,4 +1,6 @@
 var credentials = require('./credentials')
+  , express = require('express')
+  , app = express()
 
 var text = channel = username = emoji = '';
 
@@ -20,16 +22,17 @@ var parseCommands = function (message, channel){
     // console.log(assetId);
     // console.log(destination);
     // console.log(channel);
-    sendMessage(text, channel, username, emoji);
-
     trello.move(assetId, destination, channel);
 
   } else if (typeofCommand == 'list'){
     var listname = command[1];
     console.log(listname);
     console.log(channel);
+    text = 'Displaying the list now...';
+    username = 'Calculon';
+    emoji = ':calculon:';
 
-    trello.list(listname, channel)
+    trello.list(listname, channel);
 
   } else if (typeofCommand == 'help'){
     var typeofHelp = command[1];
@@ -48,13 +51,12 @@ var parseCommands = function (message, channel){
     } else if (typeofHelp == 'help'){
       text = "I think we're stuck in an infinity loop...";
     }
-    sendMessage(text, channel, username, emoji);
   } else {
     username = 'Prof. Farnsworth';
     emoji = ':farnsworth:';
     text = "I just finished turbo-charging this bot's matter compressor! Type `trellobot help` to get started!";
-    sendMessage(text, channel, username, emoji);
   }
+  sendMessage(text, channel, username, emoji);
 };
 
 var sendMessage = function (text, channel, username, emoji){

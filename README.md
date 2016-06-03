@@ -16,7 +16,7 @@ It queries Trello for a specific board and a specific list, and watches it for c
 
 It queries an Outlook inbox and looks for emails from a specific sender and then announces to a channel when there are new emails (essentially, a pull-push notification).
 
-It features a few basic commands, triggered by "trellobot" or "/bot", to manipulate trello cards. Functionality is limited, and is not entirely dynamic (only works with a few lists, lists were manually configured). 
+It features a few basic commands, triggered by "trellobot" ~~or "/bot"~~, to manipulate trello cards. Functionality is limited, and is not entirely dynamic (only works with a few lists, lists were manually configured). 
 
 - trellobot help
 - trellobot move
@@ -33,10 +33,11 @@ The Outlook inbox receives specific alerts from various sources. This bot will w
 ##What are the pieces
 
 - **authHelper.js** authenticates with Outlook through OAuth2.
-- **gulpfile.js** currently stores the Trello logic and has basic incoming integration (we will be building custom trello commands)
+- **gulpfile.js** currently stores the Trello logic and has basic incoming integration
 - **mailer.js** holds the Outlook logic
 - **credentials.js** holds your secret keys and tokens. You will need them from Outlook, Slack and Trello.
 - **trello.js** holds your trello functionality
+- **bot.js** this has the bot functions
 
 ##Dependencies
 
