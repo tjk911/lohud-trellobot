@@ -82,7 +82,13 @@ app.post('/post',function(req,res){
 
   // console.log(message);
   bot.parseCommands(message, channel);
-  // res.json(reply);
+  reply = {
+    text: "Processing your command now",
+    // channel: channel,
+    username: "Kif Kroker",
+    icon_emoji: ":kif:",
+  }
+  res.json(reply);
 });
 
 // LISTEN!

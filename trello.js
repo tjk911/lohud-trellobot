@@ -35,7 +35,7 @@ var grab = function (){
         username = 'Bender';
         emoji = ':bender:';
         bot.sendMessage(text, channel, username, emoji);
-        receiveData();
+        grab();
       } else {
         // console.log(data);
         receiveData(data);
