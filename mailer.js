@@ -7,8 +7,8 @@ var outlook = require('node-outlook')
   , savedRefresh = require('./token.json')
   , bot = require('./bot')
 
-var savedToken;
-var refreshToken;
+var savedToken, refreshToken, text, channel, username, emoji;
+
 var alertCounter = 0;
 
 // Use below for stage/prod
@@ -109,6 +109,10 @@ var checkMail = function (req, res){
   // Use below for stage/prod
   var date = moment().tz("America/Los_Angeles").format();
 
+  channel = '#audience';
+  username = 'OutlookBot';
+  emoji = ':calculon:';
+
   // Use below for dev
   // var date = moment().tz("America/New_York").format();
 
@@ -128,13 +132,8 @@ var checkMail = function (req, res){
     alertCounter ++;
     if (alertCounter == 60){
       alertCounter = 0;
-      credentials.slack.send({
-        username: 'OutlookBot',
-        text: "Our outlook authentication is dead! Please re-login at `http://trellobot.lohudblogs.com` with our digital@gannett.com account!",
-        icon_emoji: ':calculon:',
-        channel: '#audience',
-        // channel: '#trellotest',
-      })
+      text = 'Our outlook authentication is dead! Please re-login at `http://trellobot.lohudblogs.com` with our digital@gannett.com account!';
+      bot.sendMessage(text, channel, username, emoji);
     };
     rePingMail();
   } else {
@@ -180,19 +179,19 @@ var checkMail = function (req, res){
 
 var rePingMail = function (result){
   // console.log(result);
+
+  channel = '#audience';
+  username = 'Associated Press';
+  emoji = ':Deathstar:';
+
   if (result == undefined){
     console.log('this is rePing saying mailerjs is broken');
   } else {
     var inbox = result['value'];
     // console.log(inbox);
     for (var x = 0; x < inbox.length; x++){
-      credentials.slack.send({
-        username: 'Associated Press',
-        text: "`AP NOTIFICATION:` *"+inbox[x]['Subject']+'*',
-        icon_emoji: ':Deathstar:',
-        // channel: '#trellotest',
-        channel: '#audience',
-      });
+      text = "`AP NOTIFICATION:` *"+inbox[x]['Subject']+"*";
+      bot.sendMessage(text, channel, username, emoji);
     }
   }
   var date = moment().tz("America/Los_Angeles").format();
