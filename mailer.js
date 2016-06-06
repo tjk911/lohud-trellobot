@@ -109,7 +109,8 @@ var checkMail = function (req, res){
   // Use below for stage/prod
   var date = moment().tz("America/Los_Angeles").format();
 
-  channel = '#audience';
+  channel = '#trellotest';
+  // channel = '#audience';
   username = 'OutlookBot';
   emoji = ':calculon:';
 
@@ -133,7 +134,7 @@ var checkMail = function (req, res){
     if (alertCounter == 60){
       alertCounter = 0;
       text = 'Our outlook authentication is dead! Please re-login at `http://trellobot.lohudblogs.com` with our digital@gannett.com account!';
-      bot.sendMessage(text, channel, username, emoji);
+      bot.packageMessage(text, channel, username, emoji);
     };
     rePingMail();
   } else {
@@ -162,7 +163,7 @@ var checkMail = function (req, res){
 
         if (error){
           console.log('getMessages returned an error: ' + error);
-          rePingMail(result);
+          checkMail();
         } else if (result){
           rePingMail(result);
         }
@@ -180,7 +181,8 @@ var checkMail = function (req, res){
 var rePingMail = function (result){
   // console.log(result);
 
-  channel = '#audience';
+  channel = '#trellotest';
+  // channel = '#audience';
   username = 'Associated Press';
   emoji = ':Deathstar:';
 
@@ -191,7 +193,7 @@ var rePingMail = function (result){
     // console.log(inbox);
     for (var x = 0; x < inbox.length; x++){
       text = "`AP NOTIFICATION:` *"+inbox[x]['Subject']+"*";
-      bot.sendMessage(text, channel, username, emoji);
+      bot.packageMessage(text, channel, username, emoji);
     }
   }
   var date = moment().tz("America/Los_Angeles").format();

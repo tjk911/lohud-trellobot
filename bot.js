@@ -3,8 +3,9 @@ var credentials = require('./credentials')
   , app = express()
 
 var text = channel = username = emoji = '';
+var reply;
 
-var parseCommands = function (message, channel){
+var parseCommands = function (message, channel, privacy){
   var trello = require('./trello')
   var command = message.split(" ");
   var typeofCommand = command[0];
@@ -32,7 +33,7 @@ var parseCommands = function (message, channel){
     username = 'Calculon';
     emoji = ':calculon:';
 
-    trello.list(listname, channel);
+    trello.list(listname, channel, privacy);
 
   } else if (typeofCommand == 'help'){
     var typeofHelp = command[1];
@@ -56,19 +57,37 @@ var parseCommands = function (message, channel){
     emoji = ':farnsworth:';
     text = "I just finished turbo-charging this bot's matter compressor! Type `trellobot help` to get started!";
   }
-  sendMessage(text, channel, username, emoji);
+  packageMessage(text, channel, username, emoji, privacy);
 };
 
-var sendMessage = function (text, channel, username, emoji){
-  credentials.slack.send({
+var packageMessage = function (text, channel, username, emoji, privacy){
+  var message = {
     text: text,
-    channel: channel,
+    channel: '#trellotest',
+    // channel: channel,
     username: username,
     icon_emoji: emoji,
-  });
+  };
+  reply = message;
+  sendMessage(privacy);
 };
+
+var sendMessage = function (privacy){
+  if (privacy == true){
+    return reply;
+  } else {
+    credentials.slack.send(reply);
+  }
+};
+
+// var announce = function (){
+//   console.log(reply);
+//   return reply;
+// };
 
 module.exports = {
   parseCommands: parseCommands,
+  packageMessage: packageMessage,
   sendMessage: sendMessage,
+  // announce: announce
 }

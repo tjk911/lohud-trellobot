@@ -34,7 +34,7 @@ var grab = function (){
         channel = '#trellotest';
         username = 'Bender';
         emoji = ':bender:';
-        bot.sendMessage(text, channel, username, emoji);
+        bot.packageMessage(text, channel, username, emoji);
         grab();
       } else {
         // console.log(data);
@@ -99,11 +99,12 @@ var move = function (assetId, destination, channel){
   console.log('Trello.js has fired off the move command');
 };
 
-var list = function (listname, channel){
+var list = function (listname, channel, privacy){
   console.log('Trello.js has received the list command');
   // console.log(currentAssets);
   // console.log(listname);
   // console.log(channel);
+  console.log(privacy);
 
   if (listname == 'ready'){
     t.get(
@@ -116,7 +117,7 @@ var list = function (listname, channel){
         if (err){
           console.log(err);
         }
-        checkList(data, channel);
+        checkList(data, channel, privacy);
       }
     );
   } else if (listname == 'embargoed' || listname == 'embargo'){
@@ -130,7 +131,7 @@ var list = function (listname, channel){
         if (err){
           console.log(err);
         }
-        checkList(data, channel);
+        checkList(data, channel, privacy);
       }
     );
   } else if (listname == 'done'){
@@ -144,7 +145,7 @@ var list = function (listname, channel){
         if (err){
           console.log(err);
         }
-        checkList(data, channel);
+        checkList(data, channel, privacy);
       }
     );
   } else if (listname == undefined){
@@ -152,27 +153,28 @@ var list = function (listname, channel){
     username = 'Prof. Farnsworth';
     emoji = ':farnsworth:';
     console.log('t+266');
-    bot.sendMessage(text, channel, username, emoji);
+    bot.packageMessage(text, channel, username, emoji, privacy);
   }
   console.log('Trello.js has fired off the list to Slack');
   // return listAssets;
 };
 
-var checkList = function (data, channel){
+var checkList = function (data, channel, privacy){
   username = 'Calculon';
   emoji = ':Calculon:';
+  console.log(privacy);
 
   if (data.length == 1){
     text = 'There is nothing in this list',
     console.log('t+219');
-    bot.sendMessage(text, channel, username, emoji);
+    bot.packageMessage(text, channel, username, emoji, privacy);
   } else {
     for (var i = 0; i < data.length; i++){
       // Check if list is push-worthy
       if (i > 0){
         text = "`"+data[i]['name']+'`';
         console.log('t+226');
-        bot.sendMessage(text, channel, username, emoji);
+        bot.packageMessage(text, channel, username, emoji, privacy);
       }
     }
   }
@@ -186,6 +188,7 @@ var receiveData = function (data){
   // console.log(currentAssets);
   // console.log(data);
 
+  channel = '#trellotest';
   channel = '#audience';
   username =  'Zoidberg';
   emoji = ':Zoidberg:';
@@ -204,7 +207,7 @@ var receiveData = function (data){
         currentAssets.push(data[i]['name']);
         text = "`"+data[i]['name']+'` is ready';
         console.log('t+299');
-        bot.sendMessage(text, channel, username, emoji);
+        bot.packageMessage(text, channel, username, emoji);
         // console.log(currentAssets);
       }
     }
@@ -222,7 +225,7 @@ var receiveData = function (data){
       // console.log(currentAssets[x]+' is now gone')
       text = "`"+currentAssets[x]+'` has been moved out of ready';
       console.log('t+317');
-      bot.sendMessage(text, channel, username, emoji);
+      bot.packageMessage(text, channel, username, emoji);
       currentAssets = newAssets;
     }
   }

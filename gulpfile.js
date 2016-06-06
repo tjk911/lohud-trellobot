@@ -76,19 +76,38 @@ app.post('/post',function(req,res){
   var response = req.body;
   console.log(response);
 
+  var privacy;
+
+  if (response['command'] != undefined){
+    privacy = true;
+    console.log('this is a private command');
+  } else {
+    privacy = false;
+    console.log('this is a public broadcast');
+  }
+
   // Clean up the message
   message = response['text'].replace(response['trigger_word'] + ' ','').toLowerCase();
   channel = "#" + response['channel_name'];
 
   // console.log(message);
-  bot.parseCommands(message, channel);
-  reply = {
-    text: "Processing your command now",
-    // channel: channel,
-    username: "Kif Kroker",
-    icon_emoji: ":kif:",
+  bot.parseCommands(message, channel, privacy);
+
+  if (privacy == true){
+    // reply = {
+    //   text: "Processing your command now",
+    //   // channel: channel,
+    //   username: "Kif Kroker",
+    //   icon_emoji: ":kif:",
+    // }
+    reply = bot.sendMessage(privacy);
+    res.json(reply);
   }
-  res.json(reply);
+
+  
+
+  // var reply = bot.announce();
+  // console.log(reply);
 });
 
 // LISTEN!
