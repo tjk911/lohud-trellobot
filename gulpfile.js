@@ -46,7 +46,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 // Tell app to use jade
 app.set('view engine', 'jade');
 
-app.get('/', function (req, res, next){
+app.get('/var/www', function (req, res, next){
   try {
     res.render('homepage', {
       title : 'Trellobot | lohud.com',

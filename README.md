@@ -50,3 +50,6 @@ Code has been refactored a little to start compartmentalizing the different func
 Will have to explore security concerns there more, early look into bcrypt is... not too promising.
 
 Still need to figure out what is/was killing the bot, but we've resolved the "undefined" error that was plaguing us some nights. 
+
+##BIG PROBLEMO
+Running ``forever list`` is throwing a blank on the DigitalOcean droplet. Process is still running, but not being registered. Using `pkill node` will restart the process, but will be brought up instantaneously. Not entirely sure what's going wrong, will need to be investigated much more. 
