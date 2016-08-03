@@ -44,9 +44,10 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 // Tell app to use jade
-app.set('view engine', 'jade');
+app.set('view engine', 'pug');
+app.set('views', '/var/www/trellobot/views/');
 
-app.get('/var/www', function (req, res, next){
+app.get('/', function (req, res, next){
   try {
     res.render('homepage', {
       title : 'Trellobot | lohud.com',
@@ -82,13 +83,13 @@ app.post('/post',function(req,res){
 
   // console.log(message);
   bot.parseCommands(message, channel);
-  reply = {
-    text: "Processing your command now",
-    // channel: channel,
-    username: "Kif Kroker",
-    icon_emoji: ":kif:",
-  }
-  res.json(reply);
+  // reply = {
+  //   text: "Processing your command now",
+  //   // channel: channel,
+  //   username: "Kif Kroker",
+  //   icon_emoji: ":kif:",
+  // }
+  // res.json(reply);
 });
 
 // LISTEN!
